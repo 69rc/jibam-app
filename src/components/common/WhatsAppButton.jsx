@@ -1,11 +1,10 @@
 import { IoLogoWhatsapp } from 'react-icons/io5';
+import { PHARMACIST_WHATSAPP } from '../../constants';
 
 export default function WhatsAppButton() {
   const handleWhatsAppClick = () => {
-    // Replace with your actual WhatsApp number
-    const phoneNumber = '1234567890'; // Replace with your WhatsApp number
     const message = 'Hello, I would like to inquire about your products.';
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/${PHARMACIST_WHATSAPP}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
 
