@@ -106,7 +106,7 @@ export default defineConfig({
           }
         ],
         // Ensure service worker is properly registered
-        clientNavigate: true,
+        clientsClaim: true,
         navigateFallback: '/index.html',
         navigateFallbackDenylist: [/^\/api/]
       }
