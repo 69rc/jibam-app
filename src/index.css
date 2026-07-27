@@ -1,0 +1,396 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;0,14..32,900;1,14..32,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Design Tokens ──────────────────────────────────────────────── */
+:root {
+  --header-h: 56px;
+  --bottom-nav-h: 64px;
+  --app-max-w: 480px;
+  --bg: #F0F2F8;
+  --surface: #FFFFFF;
+  --navy: #0D1B5E;
+  --navy-light: #1A2E8A;
+  --cyan: #00AEEF;
+  --radius-xl: 20px;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+
+  /* Safe area insets (iOS notch / home bar) */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+}
+
+/* ─── Base Reset ─────────────────────────────────────────────────── */
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent; /* no blue tap flash on mobile */
+  }
+
+  html {
+    scroll-behavior: smooth;
+    height: 100%;
+    /* Prevent pull-to-refresh & rubber-band scroll on mobile browsers */
+    overscroll-behavior: none;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background-color: #CBD5E8;           /* outer bg — visible on desktop */
+    color: var(--navy);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    min-height: 100%;
+    min-height: 100dvh;
+    line-height: 1.5;
+    /* Centre the narrow phone column on desktop */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  /* The React root = the phone frame */
+  #root {
+    width: 100%;
+    max-width: var(--app-max-w);
+    min-height: 100dvh;
+    background: var(--bg);
+    position: relative;
+    /* Phone-frame shadow visible only on wider screens */
+    box-shadow: 0 0 60px rgba(13, 27, 94, 0.18),
+                0 0 0 1px rgba(13, 27, 94, 0.08);
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  /* Better touch scrolling on iOS */
+  .scroll-area {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* ─── Mobile App Shell ───────────────────────────────────────────── */
+@layer components {
+
+  /* Outer page wrapper rendered by Layout.jsx */
+  .app-shell {
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+  }
+
+  /* ── Top Header ──────────────────────────────────────────── */
+  .app-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    padding-top: max(var(--safe-top), 0px);
+    height: calc(var(--header-h) + var(--safe-top));
+    background: #FFFFFF;
+    border-bottom: 1px solid rgba(13, 27, 94, 0.08);
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    /* Frosted-glass effect */
+    backdrop-filter: saturate(180%) blur(8px);
+    -webkit-backdrop-filter: saturate(180%) blur(8px);
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 1px 0 rgba(13, 27, 94, 0.06),
+                0 2px 12px rgba(13, 27, 94, 0.04);
+  }
+
+  /* ── Page Content ─────────────────────────────────────────
+     Window scroll: no overflow-y here. The browser window scrolls.
+     Header is sticky, bottom nav is fixed — both work fine this way.
+  ─────────────────────────────────────────────────────────── */
+  .app-main {
+    flex: 1;
+    padding: 16px;
+    padding-left: calc(16px + var(--safe-left));
+    padding-right: calc(16px + var(--safe-right));
+    /* Leave room for fixed bottom nav */
+    padding-bottom: calc(var(--bottom-nav-h) + var(--safe-bottom) + 24px);
+  }
+
+  /* ── Bottom Navigation ───────────────────────────────────── */
+  .app-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    /* Align to app column on desktop */
+    width: min(100%, var(--app-max-w));
+    left: 50%;
+    transform: translateX(-50%);
+    height: calc(var(--bottom-nav-h) + var(--safe-bottom));
+    padding-bottom: var(--safe-bottom);
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: saturate(180%) blur(12px);
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
+    border-top: 1px solid rgba(13, 27, 94, 0.08);
+    box-shadow: 0 -4px 20px rgba(13, 27, 94, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    z-index: 50;
+  }
+
+  .bottom-nav-tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    flex: 1;
+    height: 100%;
+    padding: 0;
+    color: #9CA3AF;
+    transition: color 0.15s ease, transform 0.12s ease;
+    position: relative;
+    cursor: pointer;
+    /* Large tap target */
+    min-height: 44px;
+  }
+
+  .bottom-nav-tab:active {
+    transform: scale(0.92);
+  }
+
+  .bottom-nav-tab--active {
+    color: var(--navy);
+  }
+
+  /* Pill indicator on active tab */
+  .bottom-nav-tab--active::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 28px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--navy), var(--cyan));
+    border-radius: 0 0 6px 6px;
+  }
+
+  .bottom-nav-label {
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.01em;
+  }
+
+  /* ── Buttons ─────────────────────────────────────────────── */
+  .btn-primary {
+    @apply font-bold px-6 py-3 rounded-2xl transition-all disabled:opacity-50 disabled:cursor-not-allowed;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(13, 27, 94, 0.25);
+    min-height: 48px;              /* touch-friendly */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 0.01em;
+    transition: transform 0.1s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+  }
+  .btn-primary:active:not(:disabled) {
+    transform: scale(0.97);
+    box-shadow: 0 2px 6px rgba(13, 27, 94, 0.2);
+  }
+  .btn-primary:hover:not(:disabled) {
+    box-shadow: 0 6px 20px rgba(13, 27, 94, 0.32);
+  }
+
+  .btn-outline {
+    @apply font-bold px-6 py-3 rounded-2xl transition-all;
+    border: 2px solid var(--navy);
+    color: var(--navy);
+    background: transparent;
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .btn-outline:active {
+    background: rgba(13, 27, 94, 0.06);
+    transform: scale(0.97);
+  }
+
+  .btn-accent {
+    @apply font-bold px-6 py-3 rounded-2xl transition-all;
+    background: linear-gradient(135deg, var(--cyan) 0%, #0090CC 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 174, 239, 0.3);
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ── Cards & Inputs ────────────────────────────────────── */
+  .card {
+    background: white;
+    border-radius: var(--radius-xl);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(13,27,94,0.05);
+    border: 1px solid rgba(13, 27, 94, 0.06);
+    overflow: hidden;
+  }
+
+  .input-field {
+    width: 100%;
+    border: 1.5px solid #E2E6F0;
+    border-radius: var(--radius-lg);
+    padding: 14px 16px;
+    font-size: 15px;
+    font-family: inherit;
+    background: white;
+    color: var(--navy);
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    min-height: 48px;      /* touch-friendly */
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .input-field:focus {
+    border-color: var(--cyan);
+    box-shadow: 0 0 0 3px rgba(0, 174, 239, 0.12);
+    background: white;
+  }
+  .input-field::placeholder {
+    color: #B0BAD0;
+  }
+
+  /* ── Badges ───────────────────────────────────────────── */
+  .badge-navy {
+    @apply text-xs font-bold px-2.5 py-1 rounded-full;
+    background: rgba(13, 27, 94, 0.08);
+    color: var(--navy);
+  }
+  .badge-cyan {
+    @apply text-xs font-bold px-2.5 py-1 rounded-full;
+    background: rgba(0, 174, 239, 0.10);
+    color: var(--cyan);
+  }
+
+  /* ── Page transition wrapper ──────────────────────────── */
+  .page-enter {
+    animation: pageSlideIn 0.22s ease-out;
+  }
+
+  /* ── Auth page shell ──────────────────────────────────── */
+  .auth-shell {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    background: #F4F6FB;
+    padding-top: var(--safe-top);
+    padding-bottom: var(--safe-bottom);
+    padding-left: var(--safe-left);
+    padding-right: var(--safe-right);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* ── Section pull handle divider ─────────────────────── */
+  .pull-handle {
+    width: 36px;
+    height: 4px;
+    background: #DDE2F0;
+    border-radius: 2px;
+    margin: 0 auto 4px;
+  }
+}
+
+/* ─── Utility: Scrollbar Hide ────────────────────────────────────── */
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Momentum scrolling on iOS */
+  .scroll-touch {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Ensure full-bleed horizontal scrollers have visible padding */
+  .px-bleed {
+    padding-left: 16px;
+    padding-right: 16px;
+    scroll-padding-left: 16px;
+  }
+
+  /* Safe-area-aware padding */
+  .pb-safe {
+    padding-bottom: calc(var(--bottom-nav-h) + var(--safe-bottom) + 16px);
+  }
+
+  /* Safe area utilities */
+  .pt-safe {
+    padding-top: var(--safe-top);
+  }
+  .pb-safe-bottom {
+    padding-bottom: var(--safe-bottom);
+  }
+  .pl-safe {
+    padding-left: var(--safe-left);
+  }
+  .pr-safe {
+    padding-right: var(--safe-right);
+  }
+  .px-safe {
+    padding-left: var(--safe-left);
+    padding-right: var(--safe-right);
+  }
+  .py-safe {
+    padding-top: var(--safe-top);
+    padding-bottom: var(--safe-bottom);
+  }
+
+  /* Skeleton shimmer animation */
+  .skeleton {
+    background: linear-gradient(90deg, #E8ECF8 25%, #F5F7FC 50%, #E8ECF8 75%);
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.4s infinite;
+  }
+}
+
+/* ─── Animations ─────────────────────────────────────────────────── */
+@keyframes pageSlideIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes skeleton-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Global Scrollbar (desktop only, minimal) ───────────────────── */
+@media (min-width: 481px) {
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #DDE2F0; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--navy); }
+}
