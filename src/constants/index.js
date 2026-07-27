@@ -1,4 +1,4 @@
-export const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://jibam-backend-git-main-jibrinb271-gmailcoms-projects.vercel.app/api/v1';
+export const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://jibam-backend.vercel.app/api/v1';
 export const PHARMACIST_WHATSAPP = import.meta.env.VITE_PHARMACIST_WHATSAPP || '2348000000000';
 export const DELIVERY_FEE = 500;
 

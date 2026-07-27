@@ -9,8 +9,10 @@ const api = axios.create({
 
 // Attach access token
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('accessToken');
-  if (token) config.headers.Authorization = `Bearer ${token}`;
+  if (typeof window !== 'undefined') {
+    const token = localStorage.getItem('accessToken');
+    if (token) config.headers.Authorization = `Bearer ${token}`;
+  }
   return config;
 });
 
@@ -21,6 +23,9 @@ api.interceptors.response.use(
     const original = error.config;
     if (error.response?.status === 401 && !original._retry) {
       original._retry = true;
+      if (typeof window === 'undefined') {
+        return Promise.reject(error);
+      }
       const refreshToken = localStorage.getItem('refreshToken');
       if (!refreshToken) {
         localStorage.removeItem('accessToken');

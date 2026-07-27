@@ -104,7 +104,11 @@ export default defineConfig({
               cacheName: 'static-cache'
             }
           }
-        ]
+        ],
+        // Ensure service worker is properly registered
+        clientNavigate: true,
+        navigateFallback: '/index.html',
+        navigateFallbackDenylist: [/^\/api/]
       }
     })
   ],
@@ -113,7 +117,7 @@ export default defineConfig({
     port: 3002,
     proxy: {
       '/api': {
-        target: 'https://jibam-backend-git-main-jibrinb271-gmailcoms-projects.vercel.app',
+        target: 'https://jibam-backend.vercel.app',
         changeOrigin: true,
       },
     },
