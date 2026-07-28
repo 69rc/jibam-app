@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
@@ -11,6 +11,7 @@ import { PageSpinner } from '../../components/common/Spinner';
 import EmptyState from '../../components/common/EmptyState';
 import { useDebounce } from '../../hooks/useDebounce';
 import useAuthStore from '../../store/authStore';
+import PWAInstallPrompt from '../../components/pwa/PWAInstallPrompt';
 
 export default function SearchPage() {
   const navigate = useNavigate();
@@ -23,6 +24,8 @@ export default function SearchPage() {
   const [rxOnly, setRxOnly] = useState(false);
   const [inStockOnly, setInStockOnly] = useState(false);
   const [page, setPage] = useState(1);
+  const [showPWAInstall, setShowPWAInstall] = useState(false);
+  const [hasSearched, setHasSearched] = useState(false);
   const debouncedSearch = useDebounce(search, 400);
 
   const { data: catData } = useQuery({
@@ -63,11 +66,30 @@ export default function SearchPage() {
     addToCartMutation.mutate(product.id);
   };
 
+  // Show PWA install prompt after each search (until installed)
+  useEffect(() => {
+    if (debouncedSearch) {
+      setHasSearched(true);
+      // Show PWA install prompt after a short delay on each search
+      setTimeout(() => {
+        setShowPWAInstall(true);
+      }, 1500);
+    }
+  }, [debouncedSearch]);
+
   const products = data?.data || [];
   const pagination = data?.pagination;
 
   return (
     <div className="flex flex-col gap-3">
+      {/* PWA Install Prompt */}
+      {showPWAInstall && (
+        <PWAInstallPrompt 
+          forceShow={true} 
+          onDismiss={() => setShowPWAInstall(false)} 
+        />
+      )}
+      
       {/* ── Search input — sticky below the top header ──── */}
       {/* --header-h = 56px, defined in index.css */}
       <div

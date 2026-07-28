@@ -3,7 +3,6 @@ import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import useAuthStore from './store/authStore';
 import Layout from './components/layout/Layout';
 import { isMobileDevice } from './utils/mobileDetection';
-import PWAInstallPrompt from './components/pwa/PWAInstallPrompt';
 
 // Auth pages (no nav/footer)
 import LoginPage from './pages/auth/LoginPage';
@@ -109,7 +108,6 @@ export default function App() {
   return (
     <>
       <ScrollToTop />
-      <PWAInstallPrompt />
       <Routes>
         {/* ── Auth pages (no layout wrapper) ─────────────────────── */}
         <Route path="/login" element={

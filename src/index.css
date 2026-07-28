@@ -387,6 +387,29 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) translateY(20px);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05) translateY(-5px);
+  }
+  70% {
+    transform: scale(0.95) translateY(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ─── Animation Utilities ───────────────────────────────────── */
+.animate-bounce-in {
+  animation: bounceIn 0.5s ease-out;
+}
+
 /* ─── Global Scrollbar (desktop only, minimal) ───────────────────── */
 @media (min-width: 481px) {
   ::-webkit-scrollbar { width: 4px; height: 4px; }
