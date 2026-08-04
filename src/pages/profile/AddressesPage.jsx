@@ -122,8 +122,24 @@ export default function AddressesPage() {
         open={modalOpen}
         onClose={() => { setModalOpen(false); setEditTarget(null); reset({}); }}
         title={editTarget ? 'Edit Address' : 'Add Address'}
+        footer={
+          <button
+            type="submit"
+            form="address-form"
+            disabled={saveMutation.isPending}
+            className="btn-primary w-full flex items-center justify-center gap-2"
+          >
+            {saveMutation.isPending
+              ? <span className="inline-block w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              : editTarget ? 'Save Changes' : 'Add Address'}
+          </button>
+        }
       >
-        <form onSubmit={handleSubmit((d) => saveMutation.mutate(d))} className="flex flex-col gap-4 pb-4">
+        <form
+          id="address-form"
+          onSubmit={handleSubmit((d) => saveMutation.mutate(d))}
+          className="flex flex-col gap-4"
+        >
           {FIELDS.map(({ name, label, rules }) => (
             <div key={name} className="flex flex-col gap-1.5">
               <label className="text-xs font-semibold text-primary">{label}</label>
@@ -134,16 +150,6 @@ export default function AddressesPage() {
               {errors[name] && <p className="text-xs text-red-500">{errors[name].message}</p>}
             </div>
           ))}
-
-          <button
-            type="submit"
-            disabled={saveMutation.isPending}
-            className="btn-primary w-full flex items-center justify-center gap-2 mt-2"
-          >
-            {saveMutation.isPending
-              ? <span className="inline-block w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-              : editTarget ? 'Save Changes' : 'Add Address'}
-          </button>
         </form>
       </Modal>
     </div>

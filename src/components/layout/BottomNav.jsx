@@ -25,8 +25,12 @@ export default function BottomNav() {
   const { isAuthenticated } = useAuthStore();
   const itemCount = useCartStore((s) => s.itemCount);
 
+  // Hide when a modal is open (modal uses z-[60], nav is z-50)
+  // We detect this by checking if body has position:fixed set by Modal
+  const isModalOpen = document.body.style.position === 'fixed';
+
   return (
-    <nav className="app-bottom-nav sm:hidden">
+    <nav className={`app-bottom-nav sm:hidden ${isModalOpen ? 'hidden' : ''}`}>
       {NAV_ITEMS.map(({ to, label, Icon, IconActive, badge }) => {
         const isActive = to === '/' ? pathname === '/' : pathname.startsWith(to);
         const ActiveIcon = isActive ? IconActive : Icon;
