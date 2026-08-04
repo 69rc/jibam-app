@@ -18,16 +18,18 @@ export default function Modal({ open, onClose, title, children, size = 'md' }) {
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
 
       {/* Sheet */}
-      <div className={`relative bg-white w-full ${sizes[size]} rounded-t-3xl sm:rounded-2xl shadow-xl max-h-[90vh] overflow-y-auto`}>
+      <div className={`relative bg-white w-full ${sizes[size]} rounded-t-3xl sm:rounded-2xl shadow-xl max-h-[90vh] flex flex-col`}>
         {title && (
-          <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 sticky top-0 bg-white z-10">
-            <h2 className="text-lg font-bold text-navy">{title}</h2>
+          <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-white flex-shrink-0">
+            <h2 className="text-lg font-bold text-primary">{title}</h2>
             <button onClick={onClose} className="p-1 hover:bg-gray-100 rounded-lg transition">
               <IoClose size={22} className="text-gray-500" />
             </button>
           </div>
         )}
-        <div className="p-6">{children}</div>
+        <div className="p-6 overflow-y-auto overscroll-contain" style={{ WebkitOverflowScrolling: 'touch' }}>
+          {children}
+        </div>
       </div>
     </div>
   );

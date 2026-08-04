@@ -57,12 +57,12 @@ export default function PWAUpdateNotification() {
     <div className="fixed top-4 left-4 right-4 z-50 sm:left-auto sm:right-8 sm:w-96">
       <div className="bg-white rounded-2xl shadow-2xl p-4 border border-gray-100">
         <div className="flex items-start gap-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-[#00AEEF] to-[#0090CC] rounded-xl flex items-center justify-center flex-shrink-0">
+          <div className="w-10 h-10 bg-gradient-to-br from-[#8BC34A] to-[#0090CC] rounded-xl flex items-center justify-center flex-shrink-0">
             <IoRefreshOutline size={20} className="text-white" />
           </div>
           
           <div className="flex-1">
-            <h3 className="font-bold text-navy text-sm mb-1">Update Available</h3>
+            <h3 className="font-bold text-primary text-sm mb-1">Update Available</h3>
             <p className="text-xs text-gray-500 mb-3">
               A new version of Jibam Pharmacy is available with improvements and bug fixes.
             </p>
@@ -71,7 +71,7 @@ export default function PWAUpdateNotification() {
               <button
                 onClick={handleUpdate}
                 disabled={isUpdating}
-                className="flex-1 bg-[#00AEEF] hover:bg-[#0090CC] text-white text-xs font-bold py-2 px-4 rounded-xl transition-colors flex items-center justify-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 bg-[#8BC34A] hover:bg-[#0090CC] text-white text-xs font-bold py-2 px-4 rounded-xl transition-colors flex items-center justify-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isUpdating ? (
                   <>

@@ -12,11 +12,11 @@ import useCartStore from '../../store/cartStore';
 import JibamLogo from '../../components/common/JibamLogo';
 
 const MENU_ITEMS = [
-  { icon: IoSettingsOutline, label: 'Edit Profile', to: '/settings', color: '#0D1B5E' },
-  { icon: IoLocationOutline, label: 'My Addresses', to: '/addresses', color: '#0D1B5E' },
+  { icon: IoSettingsOutline, label: 'Edit Profile', to: '/settings', color: '#1B5E20' },
+  { icon: IoLocationOutline, label: 'My Addresses', to: '/addresses', color: '#1B5E20' },
   { icon: IoHeartOutline, label: 'Wishlist', to: '/wishlist', color: '#E53935' },
-  { icon: IoNotificationsOutline, label: 'Notifications', to: '/notifications', color: '#00AEEF' },
-  { icon: IoPersonOutline, label: 'Account Settings', to: '/settings', color: '#0D1B5E' },
+  { icon: IoNotificationsOutline, label: 'Notifications', to: '/notifications', color: '#8BC34A' },
+  { icon: IoPersonOutline, label: 'Account Settings', to: '/settings', color: '#1B5E20' },
 ];
 
 export default function ProfilePage() {
@@ -41,16 +41,16 @@ export default function ProfilePage() {
 
   return (
     <div>
-      {/* Navy header */}
-      <div className="bg-navy rounded-2xl p-6 mb-5 relative overflow-hidden">
-        <div className="absolute top-[-30px] right-[-30px] w-32 h-32 rounded-full bg-cyan opacity-10" />
-        <div className="absolute bottom-[-20px] left-[-20px] w-24 h-24 rounded-full bg-navy-light opacity-40" />
+      {/* Green header */}
+      <div className="bg-primary rounded-2xl p-6 mb-5 relative overflow-hidden">
+        <div className="absolute top-[-30px] right-[-30px] w-32 h-32 rounded-full bg-accent opacity-10" />
+        <div className="absolute bottom-[-20px] left-[-20px] w-24 h-24 rounded-full bg-primary-light opacity-40" />
 
         <JibamLogo size="xs" light className="mb-4 z-10 relative" />
 
         <div className="flex items-center gap-4 z-10 relative">
           {/* Avatar */}
-          <div className="w-16 h-16 rounded-full bg-cyan flex items-center justify-center border-2 border-white/30 flex-shrink-0">
+          <div className="w-16 h-16 rounded-full bg-accent flex items-center justify-center border-2 border-white/30 flex-shrink-0">
             {user?.avatar ? (
               <img src={user.avatar} alt="" className="w-full h-full rounded-full object-cover" />
             ) : (
@@ -73,7 +73,7 @@ export default function ProfilePage() {
           <Link
             key={to + label}
             to={to}
-            className={`flex items-center gap-3 px-4 py-4 hover:bg-navy-surface transition
+            className={`flex items-center gap-3 px-4 py-4 hover:bg-primary-surface transition
               ${i < MENU_ITEMS.length - 1 ? 'border-b border-gray-100' : ''}`}
           >
             <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"

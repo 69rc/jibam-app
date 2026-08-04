@@ -20,7 +20,7 @@ function OrderCard({ order }) {
     >
       <div className="flex items-start justify-between gap-3 mb-2">
         <div>
-          <p className="text-sm font-bold text-navy">Order #{order.orderNumber}</p>
+          <p className="text-sm font-bold text-primary">Order #{order.orderNumber}</p>
           <p className="text-xs text-gray-400 mt-0.5">
             {new Date(order.createdAt).toLocaleDateString('en-NG', {
               day: '2-digit', month: 'short', year: 'numeric',
@@ -43,12 +43,12 @@ function OrderCard({ order }) {
       )}
 
       <div className="flex items-center justify-between mt-1">
-        <span className="text-base font-extrabold text-navy">₦{Number(order.total).toLocaleString()}</span>
+        <span className="text-base font-extrabold text-primary">₦{Number(order.total).toLocaleString()}</span>
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1.5">
             <div
               className="w-1.5 h-1.5 rounded-full"
-              style={{ backgroundColor: order.paymentStatus === 'paid' ? '#0D1B5E' : '#F57C00' }}
+              style={{ backgroundColor: order.paymentStatus === 'paid' ? '#1B5E20' : '#F57C00' }}
             />
             <span className="text-xs text-gray-400 capitalize">{order.paymentStatus}</span>
           </div>
@@ -72,7 +72,7 @@ export default function OrdersPage() {
 
   return (
     <div className="">
-      <h1 className="text-2xl font-extrabold text-navy mb-5">My Orders</h1>
+      <h1 className="text-2xl font-extrabold text-primary mb-5">My Orders</h1>
 
       {/* Status filter tabs */}
       <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1 mb-5">
@@ -82,7 +82,7 @@ export default function OrdersPage() {
             onClick={() => setActiveTab(tab)}
             className={`flex-shrink-0 px-4 py-1.5 rounded-full border-2 text-xs font-bold transition
               ${activeTab === tab
-                ? 'border-navy bg-navy-surface text-navy'
+                ? 'border-primary bg-primary-surface text-primary'
                 : 'border-gray-200 text-gray-500 hover:border-gray-300 bg-white'}`}
           >
             {tab === 'All' ? 'All' : (ORDER_STATUSES[tab]?.label || tab)}

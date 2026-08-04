@@ -40,12 +40,12 @@ export default function LoginPage() {
       {/* ── Branded header ─────────────────────────── */}
       <div
         className="relative flex flex-col items-center justify-end pb-8 pt-16 px-6 overflow-hidden flex-shrink-0"
-        style={{ background: 'linear-gradient(160deg, #0D1B5E 0%, #1A2E8A 100%)', minHeight: 220 }}
+        style={{ background: 'linear-gradient(160deg, #1B5E20 0%, #2E7D32 100%)', minHeight: 220 }}
       >
         {/* Decorative circles */}
-        <div className="absolute top-[-80px] right-[-60px] w-52 h-52 rounded-full bg-cyan opacity-10" />
-        <div className="absolute top-[-30px] left-[-50px] w-40 h-40 rounded-full bg-navy-light opacity-30" />
-        <div className="absolute bottom-[-50px] right-[-20px] w-32 h-32 rounded-full bg-cyan opacity-8" />
+        <div className="absolute top-[-80px] right-[-60px] w-52 h-52 rounded-full bg-accent opacity-10" />
+        <div className="absolute top-[-30px] left-[-50px] w-40 h-40 rounded-full bg-primary-light opacity-30" />
+        <div className="absolute bottom-[-50px] right-[-20px] w-32 h-32 rounded-full bg-accent opacity-8" />
 
         {/* Back button */}
         <button
@@ -64,19 +64,19 @@ export default function LoginPage() {
       <div className="flex-1 px-4 pb-8">
         <div
           className="bg-white rounded-3xl shadow-xl p-6 -mt-6 relative z-10"
-          style={{ boxShadow: '0 8px 40px rgba(13,27,94,0.12)' }}
+          style={{ boxShadow: '0 8px 40px rgba(27,94,32,0.12)' }}
         >
-          <h1 className="text-2xl font-extrabold text-navy mb-1">Welcome Back 👋</h1>
+          <h1 className="text-2xl font-extrabold text-primary mb-1">Welcome Back 👋</h1>
           <p className="text-sm text-gray-400 mb-6">Enter your credentials to continue</p>
 
           <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
             {/* Email */}
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="login-email" className="text-sm font-semibold text-navy">
+              <label htmlFor="login-email" className="text-sm font-semibold text-primary">
                 Email Address
               </label>
               <div className="relative">
-                <IoMailOutline size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-cyan pointer-events-none" />
+                <IoMailOutline size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-primary pointer-events-none" />
                 <input
                   id="login-email"
                   {...register('email', {
@@ -95,9 +95,9 @@ export default function LoginPage() {
 
             {/* Password */}
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="login-password" className="text-sm font-semibold text-navy">Password</label>
+              <label htmlFor="login-password" className="text-sm font-semibold text-primary">Password</label>
               <div className="relative">
-                <IoLockClosedOutline size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-cyan pointer-events-none" />
+                <IoLockClosedOutline size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-primary pointer-events-none" />
                 <input
                   id="login-password"
                   {...register('password', { required: 'Password is required' })}
@@ -110,7 +110,7 @@ export default function LoginPage() {
                   type="button"
                   id="toggle-password-visibility"
                   onClick={() => setShowPass(!showPass)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-gray-400 hover:text-navy transition-colors"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-gray-400 hover:text-primary transition-colors"
                 >
                   {showPass ? <IoEyeOffOutline size={18} /> : <IoEyeOutline size={18} />}
                 </button>
@@ -119,7 +119,7 @@ export default function LoginPage() {
             </div>
 
             <div className="flex justify-end -mt-1">
-              <Link to="/forgot-password" className="text-sm text-cyan font-semibold">
+              <Link to="/forgot-password" className="text-sm text-primary font-semibold">
                 Forgot Password?
               </Link>
             </div>

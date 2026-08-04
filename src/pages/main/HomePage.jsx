@@ -13,19 +13,19 @@ import useAuthStore from '../../store/authStore';
 import useCartStore from '../../store/cartStore';
 
 const PROMO_BANNERS = [
-  { id: '1', title: 'Up to 20% Off', subtitle: 'On selected antibiotics', bg: 'bg-navy', textColor: 'text-white' },
-  { id: '2', title: 'Free Delivery', subtitle: 'On orders above ₦5,000', bg: 'bg-cyan', textColor: 'text-white' },
-  { id: '3', title: 'New Arrivals', subtitle: 'Fresh stock every week', bg: 'bg-navy-light', textColor: 'text-white' },
+  { id: '1', title: 'Up to 20% Off', subtitle: 'On selected antibiotics', bg: 'bg-primary', textColor: 'text-white' },
+  { id: '2', title: 'Free Delivery', subtitle: 'On orders above ₦5,000', bg: 'bg-accent', textColor: 'text-white' },
+  { id: '3', title: 'New Arrivals', subtitle: 'Fresh stock every week', bg: 'bg-primary-light', textColor: 'text-white' },
 ];
 
 function SectionHeader({ title, to }) {
   return (
     <div className="flex items-center justify-between mb-3">
-      <h2 className="text-sm font-bold text-navy">{title}</h2>
+      <h2 className="text-sm font-bold text-primary">{title}</h2>
       {to && (
         <Link
           to={to}
-          className="flex items-center gap-0.5 text-xs text-navy font-semibold hover:text-cyan transition-colors"
+          className="flex items-center gap-0.5 text-xs text-primary font-semibold hover:text-accent transition-colors"
         >
           See All <IoChevronForward size={13} />
         </Link>
@@ -72,7 +72,7 @@ export default function HomePage() {
       {/* ── Welcome greeting ─────────────────────────────── */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-base font-extrabold text-navy">
+          <h1 className="text-base font-extrabold text-primary">
             {isAuthenticated
               ? `Hello, ${user?.fullname?.split(' ')[0]} 👋`
               : 'Welcome to Jibam 👋'}
@@ -81,22 +81,22 @@ export default function HomePage() {
         </div>
         <Link
           to="/wishlist"
-          className="w-9 h-9 rounded-xl bg-white shadow-sm flex items-center justify-center hover:bg-navy-surface transition"
+          className="w-9 h-9 rounded-xl bg-white shadow-sm flex items-center justify-center hover:bg-primary-surface transition"
           aria-label="Wishlist"
         >
-          <IoHeartOutline size={18} className="text-navy" />
+          <IoHeartOutline size={18} className="text-primary" />
         </Link>
       </div>
 
       {/* ── Search bar (tap → /search) ───────────────────── */}
       <button
         onClick={() => navigate('/search')}
-        className="flex items-center gap-3 bg-white border border-gray-200 rounded-2xl px-4 py-3 shadow-sm w-full hover:border-navy/30 transition text-left"
+        className="flex items-center gap-3 bg-white border border-gray-200 rounded-2xl px-4 py-3 shadow-sm w-full hover:border-primary/30 transition text-left"
       >
         <IoSearchOutline size={18} className="text-gray-400 flex-shrink-0" />
         <span className="text-sm text-gray-400 flex-1">Search medicines, vitamins…</span>
-        <div className="w-7 h-7 rounded-xl bg-navy-surface flex items-center justify-center flex-shrink-0">
-          <IoMedkitOutline size={14} className="text-navy" />
+        <div className="w-7 h-7 rounded-xl bg-primary-surface flex items-center justify-center flex-shrink-0">
+          <IoMedkitOutline size={14} className="text-primary" />
         </div>
       </button>
 

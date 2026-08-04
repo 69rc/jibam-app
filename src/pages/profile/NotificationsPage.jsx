@@ -17,7 +17,7 @@ const TYPE_ICONS = {
 };
 
 const TYPE_COLORS = {
-  order: '#0D1B5E',
+  order: '#1B5E20',
   payment: '#1976D2',
   promo: '#E65100',
   reminder: '#7B1FA2',
@@ -50,15 +50,15 @@ export default function NotificationsPage() {
     <div className="">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <button onClick={() => navigate(-1)} className="w-9 h-9 rounded-xl bg-white shadow-sm flex items-center justify-center hover:bg-navy-surface transition">
-            <IoArrowBack size={18} className="text-navy" />
+          <button onClick={() => navigate(-1)} className="w-9 h-9 rounded-xl bg-white shadow-sm flex items-center justify-center hover:bg-primary-surface transition">
+            <IoArrowBack size={18} className="text-primary" />
           </button>
-          <h1 className="text-2xl font-extrabold text-navy">Notifications</h1>
+          <h1 className="text-2xl font-extrabold text-primary">Notifications</h1>
         </div>
         {unreadCount > 0 && (
           <button
             onClick={() => markAllMutation.mutate()}
-            className="text-xs font-semibold text-navy hover:text-cyan transition"
+            className="text-xs font-semibold text-primary hover:text-accent transition"
           >
             Mark all read
           </button>
@@ -85,7 +85,7 @@ export default function NotificationsPage() {
                 className={`flex items-start gap-3 p-4 rounded-2xl border text-left transition w-full
                   ${n.isRead
                     ? 'bg-white border-gray-100'
-                    : 'bg-navy-surface border-navy/20'}`}
+                    : 'bg-primary-surface border-primary/20'}`}
               >
                 <div
                   className="w-11 h-11 rounded-2xl flex items-center justify-center flex-shrink-0"
@@ -94,7 +94,7 @@ export default function NotificationsPage() {
                   <Icon size={20} style={{ color }} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className={`text-sm leading-snug ${n.isRead ? 'font-medium text-gray-700' : 'font-bold text-navy'}`}>
+                  <p className={`text-sm leading-snug ${n.isRead ? 'font-medium text-gray-700' : 'font-bold text-primary'}`}>
                     {n.title}
                   </p>
                   <p className="text-xs text-gray-500 mt-0.5 line-clamp-2 leading-relaxed">{n.message}</p>
@@ -105,7 +105,7 @@ export default function NotificationsPage() {
                   </p>
                 </div>
                 {!n.isRead && (
-                  <div className="w-2 h-2 rounded-full bg-navy flex-shrink-0 mt-1.5" />
+                  <div className="w-2 h-2 rounded-full bg-primary flex-shrink-0 mt-1.5" />
                 )}
               </button>
             );

@@ -26,22 +26,22 @@ export default function TopHeader() {
         <button
           id="header-search-btn"
           onClick={() => navigate('/search')}
-          className="w-10 h-10 flex items-center justify-center rounded-2xl hover:bg-navy-surface active:bg-navy-surface transition-colors"
+          className="w-10 h-10 flex items-center justify-center rounded-2xl hover:bg-primary-surface active:bg-primary-surface transition-colors"
           aria-label="Search"
         >
-          <IoSearchOutline size={22} className="text-navy" />
+          <IoSearchOutline size={22} className="text-primary" />
         </button>
 
         {/* Cart (with badge) */}
         <Link
           id="header-cart-btn"
           to="/cart"
-          className="relative w-10 h-10 flex items-center justify-center rounded-2xl hover:bg-navy-surface active:bg-navy-surface transition-colors"
+          className="relative w-10 h-10 flex items-center justify-center rounded-2xl hover:bg-primary-surface active:bg-primary-surface transition-colors"
           aria-label="Cart"
         >
-          <IoCartOutline size={22} className="text-navy" />
+          <IoCartOutline size={22} className="text-primary" />
           {isAuthenticated && itemCount > 0 && (
-            <span className="absolute top-1 right-1 bg-cyan text-white text-[9px] font-black min-w-[16px] h-4 px-0.5 rounded-full flex items-center justify-center leading-none">
+            <span className="absolute top-1 right-1 bg-primary text-white text-[9px] font-black min-w-[16px] h-4 px-0.5 rounded-full flex items-center justify-center leading-none">
               {itemCount > 99 ? '99+' : itemCount}
             </span>
           )}
@@ -52,10 +52,10 @@ export default function TopHeader() {
           <Link
             id="header-notif-btn"
             to="/notifications"
-            className="w-10 h-10 flex items-center justify-center rounded-2xl hover:bg-navy-surface active:bg-navy-surface transition-colors"
+            className="w-10 h-10 flex items-center justify-center rounded-2xl hover:bg-primary-surface active:bg-primary-surface transition-colors"
             aria-label="Notifications"
           >
-            <IoNotificationsOutline size={22} className="text-navy" />
+            <IoNotificationsOutline size={22} className="text-primary" />
           </Link>
         )}
       </div>

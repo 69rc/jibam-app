@@ -39,10 +39,10 @@ export default function RegisterPage() {
       {/* ── Branded header ─────────────────────────── */}
       <div
         className="relative flex flex-col items-center justify-end pb-8 pt-14 px-6 overflow-hidden flex-shrink-0"
-        style={{ background: 'linear-gradient(160deg, #0D1B5E 0%, #1A2E8A 100%)', minHeight: 200 }}
+        style={{ background: 'linear-gradient(160deg, #1B5E20 0%, #2E7D32 100%)', minHeight: 200 }}
       >
-        <div className="absolute top-[-60px] right-[-50px] w-44 h-44 rounded-full bg-cyan opacity-10" />
-        <div className="absolute bottom-[-30px] left-[-30px] w-32 h-32 rounded-full bg-navy-light opacity-30" />
+        <div className="absolute top-[-60px] right-[-50px] w-44 h-44 rounded-full bg-accent opacity-10" />
+        <div className="absolute bottom-[-30px] left-[-30px] w-32 h-32 rounded-full bg-primary-light opacity-30" />
 
         {/* Back button */}
         <Link
@@ -62,15 +62,15 @@ export default function RegisterPage() {
       <div className="flex-1 px-4 pb-8">
         <div
           className="bg-white rounded-3xl shadow-xl p-6 -mt-6 relative z-10"
-          style={{ boxShadow: '0 8px 40px rgba(13,27,94,0.12)' }}
+          style={{ boxShadow: '0 8px 40px rgba(27,94,32,0.12)' }}
         >
           <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
 
             {/* Full Name */}
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="reg-fullname" className="text-sm font-semibold text-navy">Full Name</label>
+              <label htmlFor="reg-fullname" className="text-sm font-semibold text-primary">Full Name</label>
               <div className="relative">
-                <IoPersonOutline size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-cyan pointer-events-none" />
+                <IoPersonOutline size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-primary pointer-events-none" />
                 <input
                   id="reg-fullname"
                   {...register('fullname', {
@@ -87,9 +87,9 @@ export default function RegisterPage() {
 
             {/* Email */}
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="reg-email" className="text-sm font-semibold text-navy">Email Address</label>
+              <label htmlFor="reg-email" className="text-sm font-semibold text-primary">Email Address</label>
               <div className="relative">
-                <IoMailOutline size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-cyan pointer-events-none" />
+                <IoMailOutline size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-primary pointer-events-none" />
                 <input
                   id="reg-email"
                   {...register('email', {
@@ -108,11 +108,11 @@ export default function RegisterPage() {
 
             {/* Phone */}
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="reg-phone" className="text-sm font-semibold text-navy">
+              <label htmlFor="reg-phone" className="text-sm font-semibold text-primary">
                 Phone Number <span className="text-gray-400 font-normal">(optional)</span>
               </label>
               <div className="relative">
-                <IoCallOutline size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-cyan pointer-events-none" />
+                <IoCallOutline size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-primary pointer-events-none" />
                 <input
                   id="reg-phone"
                   {...register('phone', {
@@ -130,9 +130,9 @@ export default function RegisterPage() {
 
             {/* Password */}
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="reg-password" className="text-sm font-semibold text-navy">Password</label>
+              <label htmlFor="reg-password" className="text-sm font-semibold text-primary">Password</label>
               <div className="relative">
-                <IoLockClosedOutline size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-cyan pointer-events-none" />
+                <IoLockClosedOutline size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-primary pointer-events-none" />
                 <input
                   id="reg-password"
                   {...register('password', {
@@ -152,7 +152,7 @@ export default function RegisterPage() {
                   type="button"
                   id="reg-toggle-password"
                   onClick={() => setShowPass(!showPass)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-gray-400 hover:text-navy transition-colors"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-gray-400 hover:text-primary transition-colors"
                 >
                   {showPass ? <IoEyeOffOutline size={18} /> : <IoEyeOutline size={18} />}
                 </button>
@@ -162,9 +162,9 @@ export default function RegisterPage() {
 
             {/* Confirm Password */}
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="reg-confirm-password" className="text-sm font-semibold text-navy">Confirm Password</label>
+              <label htmlFor="reg-confirm-password" className="text-sm font-semibold text-primary">Confirm Password</label>
               <div className="relative">
-                <IoLockClosedOutline size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-cyan pointer-events-none" />
+                <IoLockClosedOutline size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-primary pointer-events-none" />
                 <input
                   id="reg-confirm-password"
                   {...register('confirmPassword', {
@@ -193,7 +193,7 @@ export default function RegisterPage() {
 
             <p className="text-center text-sm text-gray-500">
               Already have an account?{' '}
-              <Link to="/login" className="text-cyan font-bold">Sign In</Link>
+              <Link to="/login" className="text-primary font-bold">Sign In</Link>
             </p>
           </form>
         </div>

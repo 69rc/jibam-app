@@ -14,12 +14,12 @@ function CartItem({ item, onUpdateQty, onRemove, updating }) {
   return (
     <div className="flex gap-4 items-start bg-white rounded-2xl p-4 border border-gray-100 shadow-sm">
       <img
-        src={product?.image || `https://via.placeholder.com/80x80/E8ECF8/0D1B5E?text=${product?.name?.[0]}`}
+        src={product?.image || `https://via.placeholder.com/80x80/E8F5E9/1B5E20?text=${product?.name?.[0]}`}
         alt={product?.name}
         className="w-20 h-20 rounded-xl object-cover bg-gray-50 flex-shrink-0"
       />
       <div className="flex-1 min-w-0">
-        <Link to={`/products/${product?.id}`} className="text-sm font-semibold text-navy hover:text-cyan line-clamp-2 leading-snug">
+        <Link to={`/products/${product?.id}`} className="text-sm font-semibold text-primary hover:text-accent line-clamp-2 leading-snug">
           {product?.name}
         </Link>
         <p className="text-sm text-gray-400 mt-0.5">₦{Number(item.price).toLocaleString()}</p>
@@ -29,13 +29,13 @@ function CartItem({ item, onUpdateQty, onRemove, updating }) {
           <button
             onClick={() => onUpdateQty(item.id, item.quantity - 1)}
             disabled={item.quantity <= 1 || updating}
-            className="w-7 h-7 rounded-lg border-2 border-navy/30 flex items-center justify-center disabled:opacity-30 hover:border-navy transition font-bold text-navy text-sm"
+            className="w-7 h-7 rounded-lg border-2 border-primary/30 flex items-center justify-center disabled:opacity-30 hover:border-primary transition font-bold text-primary text-sm"
           >−</button>
-          <span className="text-sm font-bold text-navy w-5 text-center">{item.quantity}</span>
+          <span className="text-sm font-bold text-primary w-5 text-center">{item.quantity}</span>
           <button
             onClick={() => onUpdateQty(item.id, item.quantity + 1)}
             disabled={item.quantity >= product?.stock || updating}
-            className="w-7 h-7 rounded-lg border-2 border-navy/30 flex items-center justify-center disabled:opacity-30 hover:border-navy transition font-bold text-navy text-sm"
+            className="w-7 h-7 rounded-lg border-2 border-primary/30 flex items-center justify-center disabled:opacity-30 hover:border-primary transition font-bold text-primary text-sm"
           >+</button>
         </div>
       </div>
@@ -44,7 +44,7 @@ function CartItem({ item, onUpdateQty, onRemove, updating }) {
         <button onClick={() => onRemove(item.id)} className="p-1 text-red-400 hover:text-red-600 transition">
           <IoTrashOutline size={17} />
         </button>
-        <span className="text-sm font-extrabold text-navy">
+        <span className="text-sm font-extrabold text-primary">
           ₦{Number(item.price * item.quantity).toLocaleString()}
         </span>
       </div>
@@ -95,7 +95,7 @@ export default function CartPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-extrabold text-navy">
+        <h1 className="text-2xl font-extrabold text-primary">
           My Cart
           {items.length > 0 && (
             <span className="ml-2 text-base font-semibold text-gray-400">
@@ -135,19 +135,19 @@ export default function CartPage() {
 
           {/* Order summary */}
           <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
-            <h2 className="text-base font-bold text-navy mb-4">Order Summary</h2>
+            <h2 className="text-base font-bold text-primary mb-4">Order Summary</h2>
             <div className="flex flex-col gap-3 text-sm">
               <div className="flex justify-between">
                 <span className="text-gray-500">Subtotal</span>
-                <span className="font-semibold text-navy">₦{Number(subtotal).toLocaleString()}</span>
+                <span className="font-semibold text-primary">₦{Number(subtotal).toLocaleString()}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-500">Delivery Fee</span>
-                <span className="font-semibold text-navy">₦{DELIVERY_FEE.toLocaleString()}</span>
+                <span className="font-semibold text-primary">₦{DELIVERY_FEE.toLocaleString()}</span>
               </div>
               <div className="border-t border-gray-100 pt-3 flex justify-between items-baseline">
-                <span className="font-bold text-navy">Total</span>
-                <span className="text-xl font-extrabold text-navy">₦{Number(total).toLocaleString()}</span>
+                <span className="font-bold text-primary">Total</span>
+                <span className="text-xl font-extrabold text-primary">₦{Number(total).toLocaleString()}</span>
               </div>
             </div>
 
@@ -158,7 +158,7 @@ export default function CartPage() {
               Proceed to Checkout
             </button>
 
-            <Link to="/search" className="block text-center text-sm text-gray-400 mt-3 hover:text-navy transition">
+            <Link to="/search" className="block text-center text-sm text-gray-400 mt-3 hover:text-primary transition">
               Continue Shopping
             </Link>
           </div>

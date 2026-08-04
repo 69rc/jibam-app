@@ -28,9 +28,9 @@ export default function ForgotPasswordPage() {
       {/* ── Branded header ─────────────────────────── */}
       <div
         className="relative flex flex-col items-center justify-end pb-8 pt-14 px-6 overflow-hidden flex-shrink-0"
-        style={{ background: 'linear-gradient(160deg, #0D1B5E 0%, #1A2E8A 100%)', minHeight: 200 }}
+        style={{ background: 'linear-gradient(160deg, #1B5E20 0%, #2E7D32 100%)', minHeight: 200 }}
       >
-        <div className="absolute top-[-50px] right-[-50px] w-44 h-44 rounded-full bg-cyan opacity-10" />
+        <div className="absolute top-[-50px] right-[-50px] w-44 h-44 rounded-full bg-accent opacity-10" />
 
         <Link
           to="/login"
@@ -49,14 +49,14 @@ export default function ForgotPasswordPage() {
       <div className="flex-1 px-4 pb-8">
         <div
           className="bg-white rounded-3xl shadow-xl p-6 -mt-6 relative z-10"
-          style={{ boxShadow: '0 8px 40px rgba(13,27,94,0.12)' }}
+          style={{ boxShadow: '0 8px 40px rgba(27,94,32,0.12)' }}
         >
           {sent ? (
             <div className="flex flex-col items-center gap-4 py-8 text-center">
-              <div className="w-24 h-24 rounded-full bg-cyan-surface flex items-center justify-center border-2 border-cyan/30">
-                <IoMailOpenOutline size={48} className="text-cyan" />
+              <div className="w-24 h-24 rounded-full bg-accent-surface flex items-center justify-center border-2 border-accent/30">
+                <IoMailOpenOutline size={48} className="text-primary" />
               </div>
-              <h2 className="text-xl font-extrabold text-navy">Check Your Email</h2>
+              <h2 className="text-xl font-extrabold text-primary">Check Your Email</h2>
               <p className="text-sm text-gray-500 leading-relaxed max-w-xs">
                 If your email is registered, a password reset link has been sent.
                 Check your inbox and spam folder.
@@ -68,11 +68,11 @@ export default function ForgotPasswordPage() {
           ) : (
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
               <div className="flex flex-col gap-1.5">
-                <label htmlFor="forgot-email" className="text-sm font-semibold text-navy">
+                <label htmlFor="forgot-email" className="text-sm font-semibold text-primary">
                   Email Address
                 </label>
                 <div className="relative">
-                  <IoMailOutline size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-cyan pointer-events-none" />
+                  <IoMailOutline size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-primary pointer-events-none" />
                   <input
                     id="forgot-email"
                     {...register('email', {
@@ -102,7 +102,7 @@ export default function ForgotPasswordPage() {
 
               <Link
                 to="/login"
-                className="flex items-center justify-center gap-1.5 text-sm text-cyan font-semibold"
+                className="flex items-center justify-center gap-1.5 text-sm text-primary font-semibold"
               >
                 <IoArrowBack size={14} /> Back to Sign In
               </Link>

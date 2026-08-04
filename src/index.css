@@ -9,11 +9,14 @@
   --header-h: 56px;
   --bottom-nav-h: 64px;
   --app-max-w: 480px;
-  --bg: #F0F2F8;
+  --bg: #F1F8F1;
   --surface: #FFFFFF;
-  --navy: #0D1B5E;
-  --navy-light: #1A2E8A;
-  --cyan: #00AEEF;
+  /* ── Jibam brand: forest green ── */
+  --navy: #1B5E20;
+  --navy-light: #2E7D32;
+  --cyan: #8BC34A;
+  /* ── Red cross accent ── */
+  --danger: #D32F2F;
   --radius-xl: 20px;
   --radius-lg: 16px;
   --radius-md: 12px;
@@ -41,7 +44,7 @@
 
   body {
     font-family: 'Inter', system-ui, sans-serif;
-    background-color: #CBD5E8;           /* outer bg — visible on desktop */
+    background-color: #C8DFC8;           /* outer bg — visible on desktop */
     color: var(--navy);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -63,8 +66,8 @@
     background: var(--bg);
     position: relative;
     /* Phone-frame shadow visible only on wider screens */
-    box-shadow: 0 0 60px rgba(13, 27, 94, 0.18),
-                0 0 0 1px rgba(13, 27, 94, 0.08);
+    box-shadow: 0 0 60px rgba(27, 94, 32, 0.18),
+                0 0 0 1px rgba(27, 94, 32, 0.08);
   }
 
   a {
@@ -97,7 +100,7 @@
     padding-top: max(var(--safe-top), 0px);
     height: calc(var(--header-h) + var(--safe-top));
     background: #FFFFFF;
-    border-bottom: 1px solid rgba(13, 27, 94, 0.08);
+    border-bottom: 1px solid rgba(27, 94, 32, 0.08);
     position: sticky;
     top: 0;
     z-index: 40;
@@ -105,8 +108,8 @@
     backdrop-filter: saturate(180%) blur(8px);
     -webkit-backdrop-filter: saturate(180%) blur(8px);
     background: rgba(255, 255, 255, 0.94);
-    box-shadow: 0 1px 0 rgba(13, 27, 94, 0.06),
-                0 2px 12px rgba(13, 27, 94, 0.04);
+    box-shadow: 0 1px 0 rgba(27, 94, 32, 0.06),
+                0 2px 12px rgba(27, 94, 32, 0.04);
   }
 
   /* ── Page Content ─────────────────────────────────────────
@@ -135,8 +138,8 @@
     background: rgba(255, 255, 255, 0.97);
     backdrop-filter: saturate(180%) blur(12px);
     -webkit-backdrop-filter: saturate(180%) blur(12px);
-    border-top: 1px solid rgba(13, 27, 94, 0.08);
-    box-shadow: 0 -4px 20px rgba(13, 27, 94, 0.08);
+    border-top: 1px solid rgba(27, 94, 32, 0.08);
+    box-shadow: 0 -4px 20px rgba(27, 94, 32, 0.08);
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -193,7 +196,7 @@
     @apply font-bold px-6 py-3 rounded-2xl transition-all disabled:opacity-50 disabled:cursor-not-allowed;
     background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
     color: white;
-    box-shadow: 0 4px 12px rgba(13, 27, 94, 0.25);
+    box-shadow: 0 4px 12px rgba(27, 94, 32, 0.30);
     min-height: 48px;              /* touch-friendly */
     display: inline-flex;
     align-items: center;
@@ -203,10 +206,10 @@
   }
   .btn-primary:active:not(:disabled) {
     transform: scale(0.97);
-    box-shadow: 0 2px 6px rgba(13, 27, 94, 0.2);
+    box-shadow: 0 2px 6px rgba(27, 94, 32, 0.22);
   }
   .btn-primary:hover:not(:disabled) {
-    box-shadow: 0 6px 20px rgba(13, 27, 94, 0.32);
+    box-shadow: 0 6px 20px rgba(27, 94, 32, 0.36);
   }
 
   .btn-outline {
@@ -226,9 +229,9 @@
 
   .btn-accent {
     @apply font-bold px-6 py-3 rounded-2xl transition-all;
-    background: linear-gradient(135deg, var(--cyan) 0%, #0090CC 100%);
+    background: linear-gradient(135deg, #8BC34A 0%, #689F38 100%);
     color: white;
-    box-shadow: 0 4px 12px rgba(0, 174, 239, 0.3);
+    box-shadow: 0 4px 12px rgba(139, 195, 74, 0.35);
     min-height: 48px;
     display: inline-flex;
     align-items: center;
@@ -239,14 +242,14 @@
   .card {
     background: white;
     border-radius: var(--radius-xl);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(13,27,94,0.05);
-    border: 1px solid rgba(13, 27, 94, 0.06);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(27,94,32,0.06);
+    border: 1px solid rgba(27, 94, 32, 0.08);
     overflow: hidden;
   }
 
   .input-field {
     width: 100%;
-    border: 1.5px solid #E2E6F0;
+    border: 1.5px solid #D4E6D4;
     border-radius: var(--radius-lg);
     padding: 14px 16px;
     font-size: 15px;
@@ -260,24 +263,24 @@
     appearance: none;
   }
   .input-field:focus {
-    border-color: var(--cyan);
-    box-shadow: 0 0 0 3px rgba(0, 174, 239, 0.12);
+    border-color: var(--navy-light);
+    box-shadow: 0 0 0 3px rgba(139, 195, 74, 0.20);
     background: white;
   }
   .input-field::placeholder {
-    color: #B0BAD0;
+    color: #9AB89A;
   }
 
   /* ── Badges ───────────────────────────────────────────── */
   .badge-navy {
     @apply text-xs font-bold px-2.5 py-1 rounded-full;
-    background: rgba(13, 27, 94, 0.08);
+    background: rgba(27, 94, 32, 0.10);
     color: var(--navy);
   }
   .badge-cyan {
     @apply text-xs font-bold px-2.5 py-1 rounded-full;
-    background: rgba(0, 174, 239, 0.10);
-    color: var(--cyan);
+    background: rgba(139, 195, 74, 0.15);
+    color: #689F38;
   }
 
   /* ── Page transition wrapper ──────────────────────────── */
@@ -290,7 +293,7 @@
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
-    background: #F4F6FB;
+    background: #F1F8F1;
     padding-top: var(--safe-top);
     padding-bottom: var(--safe-bottom);
     padding-left: var(--safe-left);
@@ -303,7 +306,7 @@
   .pull-handle {
     width: 36px;
     height: 4px;
-    background: #DDE2F0;
+    background: #B2D5B2;
     border-radius: 2px;
     margin: 0 auto 4px;
   }
@@ -360,7 +363,7 @@
 
   /* Skeleton shimmer animation */
   .skeleton {
-    background: linear-gradient(90deg, #E8ECF8 25%, #F5F7FC 50%, #E8ECF8 75%);
+    background: linear-gradient(90deg, #DCF0DC 25%, #F1F8F1 50%, #DCF0DC 75%);
     background-size: 200% 100%;
     animation: skeleton-shimmer 1.4s infinite;
   }
@@ -414,6 +417,6 @@
 @media (min-width: 481px) {
   ::-webkit-scrollbar { width: 4px; height: 4px; }
   ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: #DDE2F0; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb { background: #B2D5B2; border-radius: 4px; }
   ::-webkit-scrollbar-thumb:hover { background: var(--navy); }
 }

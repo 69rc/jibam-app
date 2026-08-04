@@ -35,10 +35,10 @@ export default function CategoryPage() {
   return (
     <div>
       <div className="flex items-center gap-3 mb-6">
-        <button onClick={() => navigate(-1)} className="w-9 h-9 rounded-xl bg-white shadow-sm flex items-center justify-center hover:bg-navy-surface transition">
-          <IoArrowBack size={18} className="text-navy" />
+        <button onClick={() => navigate(-1)} className="w-9 h-9 rounded-xl bg-white shadow-sm flex items-center justify-center hover:bg-primary-surface transition">
+          <IoArrowBack size={18} className="text-primary" />
         </button>
-        <h1 className="text-xl font-extrabold text-navy">{categoryName}</h1>
+        <h1 className="text-xl font-extrabold text-primary">{categoryName}</h1>
       </div>
 
       {isLoading ? (

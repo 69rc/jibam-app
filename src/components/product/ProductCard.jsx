@@ -21,23 +21,23 @@ export default function ProductCard({ product, onAddToCart, compact = false }) {
         <img
           src={
             product.image ||
-            `https://via.placeholder.com/180x180/E8ECF8/0D1B5E?text=${encodeURIComponent(
+            `https://via.placeholder.com/180x180/E8F5E9/1B5E20?text=${encodeURIComponent(
               product.name?.[0] || '+'
             )}`
           }
           alt={product.name}
-          className={`w-full object-cover bg-navy-surface ${
+          className={`w-full object-cover bg-primary-surface ${
             compact ? 'aspect-square' : 'aspect-[4/3]'
           }`}
         />
 
         {hasDiscount && (
-          <span className="absolute top-2 left-2 bg-cyan text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md">
+          <span className="absolute top-2 left-2 bg-accent text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md">
             -{discountPct}%
           </span>
         )}
         {product.prescriptionRequired && (
-          <span className="absolute top-2 right-2 bg-navy text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md">
+          <span className="absolute top-2 right-2 bg-primary text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md">
             Rx
           </span>
         )}
@@ -51,7 +51,7 @@ export default function ProductCard({ product, onAddToCart, compact = false }) {
       {/* ── Info ───────────────────────────────────────────── */}
       <div className="p-2.5 flex flex-col gap-1 flex-1">
         <Link to={`/products/${product.id}`}>
-          <p className="text-xs font-semibold text-navy leading-tight line-clamp-2 hover:text-cyan-dark transition-colors">
+          <p className="text-xs font-semibold text-primary leading-tight line-clamp-2 hover:text-accent-dark transition-colors">
             {product.name}
           </p>
         </Link>
@@ -73,7 +73,7 @@ export default function ProductCard({ product, onAddToCart, compact = false }) {
         {/* Price row */}
         <div className="flex items-center justify-between mt-auto pt-1 gap-1">
           <div className="min-w-0">
-            <span className="text-xs font-extrabold text-navy">
+            <span className="text-xs font-extrabold text-primary">
               ₦{Number(product.price).toLocaleString()}
             </span>
             {hasDiscount && (
@@ -89,7 +89,7 @@ export default function ProductCard({ product, onAddToCart, compact = false }) {
                 e.preventDefault();
                 onAddToCart(product);
               }}
-              className="w-7 h-7 rounded-lg bg-cyan flex items-center justify-center hover:bg-cyan-dark transition-colors flex-shrink-0"
+              className="w-7 h-7 rounded-lg bg-accent flex items-center justify-center hover:bg-accent-dark transition-colors flex-shrink-0"
               aria-label="Add to cart"
             >
               <IoBagAdd size={14} className="text-white" />

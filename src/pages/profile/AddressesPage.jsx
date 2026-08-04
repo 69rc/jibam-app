@@ -10,11 +10,12 @@ import EmptyState from '../../components/common/EmptyState';
 import Modal from '../../components/common/Modal';
 
 const FIELDS = [
-  { name: 'fullname', label: 'Full Name', icon: 'person', rules: { required: 'Required' } },
-  { name: 'phone', label: 'Phone', icon: 'call', rules: { required: 'Required' } },
-  { name: 'street', label: 'Street Address', icon: 'location', rules: { required: 'Required' } },
-  { name: 'city', label: 'City', icon: 'business', rules: { required: 'Required' } },
-  { name: 'state', label: 'State', icon: 'map', rules: { required: 'Required' } },
+  { name: 'label',    label: 'Address Label (e.g. Home, Office)', rules: { required: 'Required' } },
+  { name: 'fullname', label: 'Full Name',     rules: { required: 'Required' } },
+  { name: 'phone',    label: 'Phone',         rules: { required: 'Required' } },
+  { name: 'street',   label: 'Street Address',rules: { required: 'Required' } },
+  { name: 'city',     label: 'City',          rules: { required: 'Required' } },
+  { name: 'state',    label: 'State',         rules: { required: 'Required' } },
 ];
 
 export default function AddressesPage() {
@@ -67,13 +68,13 @@ export default function AddressesPage() {
     <div className="">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <button onClick={() => navigate(-1)} className="w-9 h-9 rounded-xl bg-white shadow-sm flex items-center justify-center hover:bg-navy-surface transition">
-            <IoArrowBack size={18} className="text-navy" />
+          <button onClick={() => navigate(-1)} className="w-9 h-9 rounded-xl bg-white shadow-sm flex items-center justify-center hover:bg-primary-surface transition">
+            <IoArrowBack size={18} className="text-primary" />
           </button>
-          <h1 className="text-2xl font-extrabold text-navy">My Addresses</h1>
+          <h1 className="text-2xl font-extrabold text-primary">My Addresses</h1>
         </div>
-        <button onClick={handleNew} className="w-9 h-9 rounded-xl bg-navy-surface flex items-center justify-center hover:bg-navy/10 transition">
-          <IoAdd size={22} className="text-navy" />
+        <button onClick={handleNew} className="w-9 h-9 rounded-xl bg-primary-surface flex items-center justify-center hover:bg-primary/10 transition">
+          <IoAdd size={22} className="text-primary" />
         </button>
       </div>
 
@@ -93,15 +94,15 @@ export default function AddressesPage() {
             <div key={addr.id} className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm">
               <div className="flex items-start justify-between gap-2 mb-2">
                 <div className="flex items-center gap-1.5 flex-wrap">
-                  <IoLocationOutline size={15} className="text-navy" />
-                  <span className="text-sm font-bold text-navy">{addr.label}</span>
+                  <IoLocationOutline size={15} className="text-primary" />
+                  <span className="text-sm font-bold text-primary">{addr.label}</span>
                   {addr.isDefault && (
                     <span className="badge-navy text-[10px]">Default</span>
                   )}
                 </div>
                 <div className="flex gap-1 flex-shrink-0">
-                  <button onClick={() => handleEdit(addr)} className="w-8 h-8 rounded-lg bg-navy-surface flex items-center justify-center hover:bg-navy/10 transition">
-                    <IoPencilOutline size={14} className="text-navy" />
+                  <button onClick={() => handleEdit(addr)} className="w-8 h-8 rounded-lg bg-primary-surface flex items-center justify-center hover:bg-primary/10 transition">
+                    <IoPencilOutline size={14} className="text-primary" />
                   </button>
                   <button onClick={() => handleDelete(addr)} className="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center hover:bg-red-100 transition">
                     <IoTrashOutline size={14} className="text-red-500" />
@@ -122,10 +123,10 @@ export default function AddressesPage() {
         onClose={() => { setModalOpen(false); setEditTarget(null); reset({}); }}
         title={editTarget ? 'Edit Address' : 'Add Address'}
       >
-        <form onSubmit={handleSubmit((d) => saveMutation.mutate(d))} className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit((d) => saveMutation.mutate(d))} className="flex flex-col gap-4 pb-4">
           {FIELDS.map(({ name, label, rules }) => (
             <div key={name} className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold text-navy">{label}</label>
+              <label className="text-xs font-semibold text-primary">{label}</label>
               <input
                 {...register(name, rules)}
                 className={`input-field text-sm ${errors[name] ? 'border-red-400 bg-red-50' : ''}`}

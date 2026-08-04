@@ -9,18 +9,18 @@ export default function OrderSuccessPage() {
   return (
     <div className="max-w-md mx-auto flex flex-col items-center justify-center min-h-[70vh] gap-6 text-center px-4">
       {/* Icon */}
-      <div className="w-36 h-36 rounded-full bg-navy-surface flex items-center justify-center animate-[bounceIn_0.6s_ease-out]">
-        <IoCheckmarkCircle size={88} className="text-navy" />
+      <div className="w-36 h-36 rounded-full bg-primary-surface flex items-center justify-center animate-[bounceIn_0.6s_ease-out]">
+        <IoCheckmarkCircle size={88} className="text-primary" />
       </div>
 
       <div className="flex flex-col gap-3">
-        <h1 className="text-3xl font-black text-navy">Order Placed! 🎉</h1>
+        <h1 className="text-3xl font-black text-primary">Order Placed! 🎉</h1>
         <p className="text-gray-500">Your order has been placed successfully.</p>
 
         {orderNumber && (
-          <div className="bg-navy-surface rounded-2xl px-8 py-4 flex flex-col gap-1">
+          <div className="bg-primary-surface rounded-2xl px-8 py-4 flex flex-col gap-1">
             <p className="text-xs text-gray-500">Order Number</p>
-            <p className="text-xl font-extrabold text-navy">#{orderNumber}</p>
+            <p className="text-xl font-extrabold text-primary">#{orderNumber}</p>
           </div>
         )}
 

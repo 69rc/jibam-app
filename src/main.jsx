@@ -27,7 +27,7 @@ createRoot(document.getElementById('root')).render(
           toastOptions={{
             duration: 3000,
             style: { fontFamily: 'Inter, sans-serif', fontSize: '14px' },
-            success: { iconTheme: { primary: '#0D1B5E', secondary: '#fff' } },
+            success: { iconTheme: { primary: '#1B5E20', secondary: '#fff' } },
             error: { iconTheme: { primary: '#D32F2F', secondary: '#fff' } },
           }}
         />

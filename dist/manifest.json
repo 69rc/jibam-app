@@ -1,12 +1,12 @@
 {
-  "name": "Jibam Pharmacy",
-  "short_name": "Jibam",
-  "description": "Your trusted online pharmacy for medicines and healthcare products.",
+  "name": "Jibam Pharmacy - Online Medicine Delivery",
+  "short_name": "Jibam Pharmacy",
+  "description": "Order quality medicines, vitamins & healthcare products online. Fast delivery across Nigeria. Install as app for best experience.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "theme_color": "#0D9488",
+  "theme_color": "#1B5E20",
   "background_color": "#FFFFFF",
   "icons": [
     {
@@ -58,54 +58,9 @@
       "purpose": "any maskable"
     }
   ],
-  "splash_pages": [
-    {
-      "src": "/splash/splash-640x1136.png",
-      "sizes": "640x1136",
-      "type": "image/png"
-    },
-    {
-      "src": "/splash/splash-750x1334.png",
-      "sizes": "750x1334",
-      "type": "image/png"
-    },
-    {
-      "src": "/splash/splash-1242x2208.png",
-      "sizes": "1242x2208",
-      "type": "image/png"
-    },
-    {
-      "src": "/splash/splash-1125x2436.png",
-      "sizes": "1125x2436",
-      "type": "image/png"
-    },
-    {
-      "src": "/splash/splash-828x1792.png",
-      "sizes": "828x1792",
-      "type": "image/png"
-    },
-    {
-      "src": "/splash/splash-1242x2688.png",
-      "sizes": "1242x2688",
-      "type": "image/png"
-    },
-    {
-      "src": "/splash/splash-1536x2048.png",
-      "sizes": "1536x2048",
-      "type": "image/png"
-    },
-    {
-      "src": "/splash/splash-1668x2388.png",
-      "sizes": "1668x2388",
-      "type": "image/png"
-    },
-    {
-      "src": "/splash/splash-2048x2732.png",
-      "sizes": "2048x2732",
-      "type": "image/png"
-    }
-  ],
-  "categories": ["health", "medical", "shopping"],
+  "categories": ["health", "medical", "shopping", "lifestyle"],
+  "screenshots": [],
+  "prefer_related_applications": false,
   "shortcuts": [
     {
       "name": "Search Medicines",
@@ -124,6 +79,18 @@
       "short_name": "Cart",
       "description": "View your shopping cart",
       "url": "/cart",
+      "icons": [
+        {
+          "src": "/icons/icon-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "short_name": "Orders",
+      "description": "Track your orders",
+      "url": "/orders",
       "icons": [
         {
           "src": "/icons/icon-192x192.png",

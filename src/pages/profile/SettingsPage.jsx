@@ -59,9 +59,9 @@ export default function SettingsPage() {
 
   const Field = ({ label, icon: Icon, error, children }) => (
     <div className="flex flex-col gap-1.5">
-      <label className="text-xs font-semibold text-navy">{label}</label>
+      <label className="text-xs font-semibold text-primary">{label}</label>
       <div className="relative">
-        <Icon size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-cyan" />
+        <Icon size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-accent" />
         {children}
       </div>
       {error && <p className="text-xs text-red-500">{error}</p>}
@@ -71,16 +71,16 @@ export default function SettingsPage() {
   return (
     <div className="">
       <div className="flex items-center gap-3 mb-6">
-        <button onClick={() => navigate(-1)} className="w-9 h-9 rounded-xl bg-white shadow-sm flex items-center justify-center hover:bg-navy-surface transition">
-          <IoArrowBack size={18} className="text-navy" />
+        <button onClick={() => navigate(-1)} className="w-9 h-9 rounded-xl bg-white shadow-sm flex items-center justify-center hover:bg-primary-surface transition">
+          <IoArrowBack size={18} className="text-primary" />
         </button>
-        <h1 className="text-2xl font-extrabold text-navy">Settings</h1>
+        <h1 className="text-2xl font-extrabold text-primary">Settings</h1>
       </div>
 
       <div className="flex flex-col gap-5">
         {/* Edit Profile */}
         <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-          <h2 className="text-sm font-bold text-navy mb-4">Edit Profile</h2>
+          <h2 className="text-sm font-bold text-primary mb-4">Edit Profile</h2>
           <form onSubmit={handleProfile(onSaveProfile)} className="flex flex-col gap-4">
             <Field label="Full Name" icon={IoPersonOutline} error={pErrs.fullname?.message}>
               <input
@@ -120,7 +120,7 @@ export default function SettingsPage() {
 
         {/* Change Password */}
         <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-          <h2 className="text-sm font-bold text-navy mb-4">Change Password</h2>
+          <h2 className="text-sm font-bold text-primary mb-4">Change Password</h2>
           <form onSubmit={handlePw(onChangePassword)} className="flex flex-col gap-4">
             <Field label="Current Password" icon={IoLockClosedOutline} error={pwErrs.currentPassword?.message}>
               <input
@@ -147,7 +147,7 @@ export default function SettingsPage() {
               className="btn-outline w-full flex items-center justify-center gap-2"
             >
               {pwSaving
-                ? <span className="inline-block w-5 h-5 border-2 border-navy/30 border-t-navy rounded-full animate-spin" />
+                ? <span className="inline-block w-5 h-5 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
                 : 'Change Password'}
             </button>
           </form>
@@ -156,15 +156,15 @@ export default function SettingsPage() {
         {/* App/Web Version Toggle - Only show on mobile */}
         {isMobile && (
           <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-            <h2 className="text-sm font-bold text-navy mb-4">App Preference</h2>
+            <h2 className="text-sm font-bold text-primary mb-4">App Preference</h2>
             <div className="flex items-center justify-between">
               <div className="flex flex-col">
-                <span className="text-sm font-semibold text-navy">Use Web Version</span>
+                <span className="text-sm font-semibold text-primary">Use Web Version</span>
                 <span className="text-xs text-gray-500">Continue using web instead of app</span>
               </div>
               <button
                 onClick={handleToggleWebVersion}
-                className={`w-12 h-7 rounded-full p-1 transition-colors ${useWebVersion ? 'bg-[#00AEEF]' : 'bg-gray-300'}`}
+                className={`w-12 h-7 rounded-full p-1 transition-colors ${useWebVersion ? 'bg-[#8BC34A]' : 'bg-gray-300'}`}
               >
                 <div
                   className={`w-5 h-5 rounded-full bg-white shadow-md transition-transform ${useWebVersion ? 'translate-x-5' : 'translate-x-0'}`}
@@ -177,7 +177,7 @@ export default function SettingsPage() {
                 toast.success('Preference reset. Download page will show.');
                 setTimeout(() => window.location.reload(), 1000);
               }}
-              className="mt-4 text-xs text-cyan font-semibold hover:underline flex items-center gap-1"
+              className="mt-4 text-xs text-accent font-semibold hover:underline flex items-center gap-1"
             >
               <IoDownloadOutline size={14} />
               Reset to show download page

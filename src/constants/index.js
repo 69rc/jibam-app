@@ -8,13 +8,13 @@ export const ORDER_STATUSES = {
   processing:       { label: 'Processing',       color: '#7B1FA2', bg: '#F3E5F5' },
   ready:            { label: 'Ready',            color: '#0097A7', bg: '#E0F7FA' },
   out_for_delivery: { label: 'Out for Delivery', color: '#E65100', bg: '#FBE9E7' },
-  delivered:        { label: 'Delivered',        color: '#0D1B5E', bg: '#E8ECF8' },
+  delivered:        { label: 'Delivered',        color: '#1B5E20', bg: '#E8ECF8' },
   cancelled:        { label: 'Cancelled',        color: '#C62828', bg: '#FFEBEE' },
 };
 
 export const PAYMENT_STATUS = {
   unpaid:   { label: 'Unpaid',   color: '#F57C00' },
-  paid:     { label: 'Paid',     color: '#0D1B5E' },
-  refunded: { label: 'Refunded', color: '#00AEEF' },
+  paid:     { label: 'Paid',     color: '#1B5E20' },
+  refunded: { label: 'Refunded', color: '#8BC34A' },
   failed:   { label: 'Failed',   color: '#C62828' },
 };

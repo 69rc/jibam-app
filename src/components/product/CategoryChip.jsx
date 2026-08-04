@@ -6,14 +6,14 @@ export default function CategoryChip({ category, selected, onPress }) {
     >
       <div className={`w-14 h-14 rounded-2xl border-2 flex items-center justify-center overflow-hidden transition-all
         ${selected
-          ? 'border-navy bg-navy'
-          : 'border-gray-200 bg-navy-surface hover:border-navy/40'}`}>
+          ? 'border-primary bg-primary'
+          : 'border-gray-200 bg-primary-surface hover:border-primary/40'}`}>
         {category.image
           ? <img src={category.image} alt={category.name} className="w-full h-full object-cover" />
           : <span className="text-2xl">💊</span>}
       </div>
       <span className={`text-xs text-center leading-tight line-clamp-2 transition-colors
-        ${selected ? 'text-navy font-bold' : 'text-gray-500 font-medium'}`}>
+        ${selected ? 'text-primary font-bold' : 'text-gray-500 font-medium'}`}>
         {category.name}
       </span>
     </button>

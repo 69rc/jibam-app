@@ -26,7 +26,7 @@ export default function WishlistPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-extrabold text-navy mb-6">My Wishlist</h1>
+      <h1 className="text-2xl font-extrabold text-primary mb-6">My Wishlist</h1>
 
       {isLoading ? (
         <PageSpinner />

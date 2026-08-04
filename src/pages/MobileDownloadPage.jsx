@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { IoMedkitOutline, IoDownloadOutline, IoStarOutline, IoShieldCheckmarkOutline, IoTimeOutline, IoHeartOutline, IoLaptopOutline } from 'react-icons/io5';
+import { IoDownloadOutline, IoStarOutline, IoShieldCheckmarkOutline, IoTimeOutline, IoHeartOutline, IoLaptopOutline, IoMedkitOutline } from 'react-icons/io5';
 
 export default function MobileDownloadPage() {
   const navigate = useNavigate();
@@ -43,14 +43,18 @@ export default function MobileDownloadPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#0D1B5E] to-[#1A2E8A] flex flex-col items-center justify-center p-6">
+    <div className="min-h-screen bg-gradient-to-b from-[#1B5E20] to-[#2E7D32] flex flex-col items-center justify-center p-6">
       {/* Logo Section */}
       <div className="text-center mb-8">
-        <div className="w-24 h-24 bg-white rounded-3xl mx-auto mb-4 flex items-center justify-center shadow-2xl">
-          <IoMedkitOutline size={48} className="text-[#0D1B5E]" />
+        <div className="w-28 h-28 bg-white rounded-3xl mx-auto mb-4 flex items-center justify-center shadow-2xl p-2">
+          <img
+            src="/icons/logo.PNG"
+            alt="Jibam Pharmacy"
+            className="w-full h-full object-contain"
+          />
         </div>
         <h1 className="text-3xl font-extrabold text-white mb-2">
-          Jibam <span className="text-[#00AEEF]">Pharmacy</span>
+          Jibam <span className="text-[#8BC34A]">Pharmacy</span>
         </h1>
         <p className="text-white/80 text-sm">Your trusted online pharmacy</p>
       </div>
@@ -59,7 +63,7 @@ export default function MobileDownloadPage() {
       <div className="grid grid-cols-2 gap-4 mb-8 w-full max-w-sm">
         {features.map((feature, index) => (
           <div key={index} className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 text-center">
-            <div className="text-[#00AEEF] mb-2 flex justify-center">
+            <div className="text-[#8BC34A] mb-2 flex justify-center">
               {feature.icon}
             </div>
             <h3 className="text-white font-semibold text-sm mb-1">{feature.title}</h3>
@@ -71,7 +75,7 @@ export default function MobileDownloadPage() {
       {/* Download Button */}
       <button
         onClick={handleDownload}
-        className="w-full max-w-sm bg-[#00AEEF] hover:bg-[#0090CC] text-white font-bold py-4 px-6 rounded-2xl shadow-lg flex items-center justify-center gap-3 transition-all transform hover:scale-105 active:scale-95"
+        className="w-full max-w-sm bg-[#8BC34A] hover:bg-[#0090CC] text-white font-bold py-4 px-6 rounded-2xl shadow-lg flex items-center justify-center gap-3 transition-all transform hover:scale-105 active:scale-95"
       >
         <IoDownloadOutline size={24} />
         <span>Download APK</span>
@@ -90,13 +94,13 @@ export default function MobileDownloadPage() {
       <div className="mt-6 flex items-center gap-2">
         <button
           onClick={() => setIsAndroid(true)}
-          className={`px-4 py-2 rounded-full text-sm font-semibold transition ${isAndroid ? 'bg-white text-[#0D1B5E]' : 'bg-white/10 text-white/70'}`}
+          className={`px-4 py-2 rounded-full text-sm font-semibold transition ${isAndroid ? 'bg-white text-[#1B5E20]' : 'bg-white/10 text-white/70'}`}
         >
           Android
         </button>
         <button
           onClick={() => setIsAndroid(false)}
-          className={`px-4 py-2 rounded-full text-sm font-semibold transition ${!isAndroid ? 'bg-white text-[#0D1B5E]' : 'bg-white/10 text-white/70'}`}
+          className={`px-4 py-2 rounded-full text-sm font-semibold transition ${!isAndroid ? 'bg-white text-[#1B5E20]' : 'bg-white/10 text-white/70'}`}
         >
           iOS
         </button>

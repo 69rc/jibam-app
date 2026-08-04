@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { IoDownloadOutline, IoCloseOutline, IoStar, IoCheckmarkCircle } from 'react-icons/io5';
-
 export default function PWAInstallPrompt({ forceShow = false, onDismiss }) {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [showInstallPrompt, setShowInstallPrompt] = useState(false);
@@ -127,17 +126,11 @@ export default function PWAInstallPrompt({ forceShow = false, onDismiss }) {
         </button>
         
         <div className="text-center mb-6">
-          <div className="w-24 h-24 bg-gradient-to-br from-[#0D1B5E] to-[#1A2E8A] rounded-3xl flex items-center justify-center mx-auto mb-4 shadow-lg">
-            <svg width="48" height="55" viewBox="0 0 100 115" fill="none">
-              <path d="M50 5 L92 22 L92 58 Q92 90 50 110 Q8 90 8 58 L8 22 Z" stroke="white" strokeWidth="6" fill="none"/>
-              <line x1="50" y1="28" x2="50" y2="88" stroke="white" strokeWidth="4" strokeLinecap="round"/>
-              <line x1="32" y1="40" x2="68" y2="40" stroke="white" strokeWidth="3.5" strokeLinecap="round"/>
-              <line x1="36" y1="54" x2="64" y2="54" stroke="white" strokeWidth="3" strokeLinecap="round"/>
-              <circle cx="50" cy="26" r="5" fill="#00AEEF"/>
-            </svg>
+          <div className="w-24 h-24 rounded-3xl flex items-center justify-center mx-auto mb-4 shadow-lg overflow-hidden">
+         <img src="/icons/logo.PNG" alt="Jibam Pharmacy" className="w-full h-full object-contain rounded-3xl" />
           </div>
           
-          <h2 className="text-2xl font-black text-navy mb-2">Install Jibam Pharmacy</h2>
+          <h2 className="text-2xl font-black text-primary mb-2">Install Jibam Pharmacy</h2>
           <p className="text-gray-600 text-sm">
             Get the full pharmacy experience on your device
           </p>
@@ -172,7 +165,7 @@ export default function PWAInstallPrompt({ forceShow = false, onDismiss }) {
         
         <button
           onClick={handleInstallClick}
-          className="w-full bg-gradient-to-r from-[#0D1B5E] to-[#1A2E8A] hover:from-[#1A2E8A] hover:to-[#0D1B5E] text-white font-bold py-4 px-6 rounded-2xl transition-all transform hover:scale-105 flex items-center justify-center gap-2 shadow-lg"
+          className="w-full bg-gradient-to-r from-[#1B5E20] to-[#2E7D32] hover:from-[#2E7D32] hover:to-[#1B5E20] text-white font-bold py-4 px-6 rounded-2xl transition-all transform hover:scale-105 flex items-center justify-center gap-2 shadow-lg"
         >
           <IoDownloadOutline size={20} />
           Install App

@@ -79,12 +79,12 @@ export default function PaymentPage() {
   if (step === 'success') {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-6">
-        <div className="w-28 h-28 rounded-full bg-navy-surface flex items-center justify-center">
-          <IoCheckmarkCircle size={72} className="text-navy" />
+        <div className="w-28 h-28 rounded-full bg-primary-surface flex items-center justify-center">
+          <IoCheckmarkCircle size={72} className="text-primary" />
         </div>
-        <h2 className="text-2xl font-extrabold text-navy">Payment Successful!</h2>
+        <h2 className="text-2xl font-extrabold text-primary">Payment Successful!</h2>
         <p className="text-gray-500">Redirecting to your order…</p>
-        <div className="w-6 h-6 border-2 border-gray-200 border-t-navy rounded-full animate-spin" />
+        <div className="w-6 h-6 border-2 border-gray-200 border-t-primary rounded-full animate-spin" />
       </div>
     );
   }
@@ -109,10 +109,10 @@ export default function PaymentPage() {
 
   return (
     <div className="flex flex-col gap-5">
-      <h1 className="text-2xl font-extrabold text-navy">Complete Payment</h1>
+      <h1 className="text-2xl font-extrabold text-primary">Complete Payment</h1>
 
       {/* Amount card */}
-      <div className="bg-navy rounded-2xl p-6 text-center flex flex-col gap-1">
+      <div className="bg-primary rounded-2xl p-6 text-center flex flex-col gap-1">
         <p className="text-white/70 text-sm">Amount to Pay</p>
         <p className="text-4xl font-black text-white">₦{Number(orderTotal).toLocaleString()}</p>
         <p className="text-white/50 text-xs">Order #{orderId?.slice(-8).toUpperCase()}</p>
@@ -120,7 +120,7 @@ export default function PaymentPage() {
 
       {/* Steps */}
       <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
-        <h3 className="text-sm font-bold text-navy mb-4">How to complete payment</h3>
+        <h3 className="text-sm font-bold text-primary mb-4">How to complete payment</h3>
         <div className="flex flex-col gap-3">
           {[
             { icon: IoOpenOutline, text: `Click "Pay with ${paymentMethod === 'opay' ? 'OPay' : 'Paystack'}" below` },
@@ -128,10 +128,10 @@ export default function PaymentPage() {
             { icon: IoCheckmarkCircle, text: 'Return here and click "I\'ve Paid"' },
           ].map((s, i) => (
             <div key={i} className="flex items-center gap-3">
-              <div className="w-6 h-6 rounded-full bg-navy-surface flex items-center justify-center flex-shrink-0">
-                <span className="text-xs font-extrabold text-navy">{i + 1}</span>
+              <div className="w-6 h-6 rounded-full bg-primary-surface flex items-center justify-center flex-shrink-0">
+                <span className="text-xs font-extrabold text-primary">{i + 1}</span>
               </div>
-              <s.icon size={17} className="text-navy flex-shrink-0" />
+              <s.icon size={17} className="text-primary flex-shrink-0" />
               <span className="text-sm text-gray-600">{s.text}</span>
             </div>
           ))}
@@ -152,13 +152,13 @@ export default function PaymentPage() {
         className="btn-outline w-full flex items-center justify-center gap-2"
       >
         {verifying ? (
-          <span className="inline-block w-5 h-5 border-2 border-navy/30 border-t-navy rounded-full animate-spin" />
+          <span className="inline-block w-5 h-5 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
         ) : "I've Paid — Confirm"}
       </button>
 
       <button
         onClick={() => navigate('/cart')}
-        className="text-sm text-gray-400 hover:text-navy text-center transition"
+        className="text-sm text-gray-400 hover:text-primary text-center transition"
       >
         Cancel & Go Back
       </button>

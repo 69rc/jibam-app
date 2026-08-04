@@ -4,18 +4,35 @@ export default {
   theme: {
     extend: {
       colors: {
+        // ── Jibam Pharmacy brand colors (from actual logo) ──────────────────
+        // Primary: dark forest green
+        primary: {
+          DEFAULT: '#1B5E20',
+          light:   '#2E7D32',
+          dark:    '#0A3D0C',
+          surface: '#E8F5E9',
+        },
+        // Accent: lime green (the swish element in the logo)
+        accent: {
+          DEFAULT: '#8BC34A',
+          dark:    '#689F38',
+          surface: '#F1F8E9',
+        },
+        // Keep navy/cyan aliases pointing to new brand for backward compat
         navy: {
-          DEFAULT: '#0D1B5E',
-          light: '#1A2E8A',
-          dark: '#080F3A',
-          surface: '#E8ECF8',
+          DEFAULT: '#1B5E20',
+          light:   '#2E7D32',
+          dark:    '#0A3D0C',
+          surface: '#E8F5E9',
         },
         cyan: {
-          DEFAULT: '#00AEEF',
-          light: '#33C0F3',
-          dark: '#0090CC',
-          surface: '#E0F5FD',
+          DEFAULT: '#8BC34A',
+          light:   '#AED581',
+          dark:    '#689F38',
+          surface: '#F1F8E9',
         },
+        // Red cross from logo
+        danger: '#D32F2F',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
@@ -29,15 +46,12 @@ export default {
     },
   },
   plugins: [
-    // Inline scrollbar-hide plugin (no extra npm package needed)
     function ({ addUtilities }) {
       addUtilities({
         '.scrollbar-hide': {
           '-ms-overflow-style': 'none',
           'scrollbar-width': 'none',
-          '&::-webkit-scrollbar': {
-            display: 'none',
-          },
+          '&::-webkit-scrollbar': { display: 'none' },
         },
       });
     },

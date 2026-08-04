@@ -3,7 +3,7 @@ import JibamLogo from '../common/JibamLogo';
 
 export default function Footer() {
   return (
-    <footer className="bg-navy text-white mt-16">
+    <footer className="bg-primary text-white mt-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
@@ -17,7 +17,7 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-bold text-sm mb-3 text-cyan">Quick Links</h4>
+            <h4 className="font-bold text-sm mb-3 text-accent">Quick Links</h4>
             <ul className="space-y-2 text-sm text-white/70">
               {[
                 { to: '/', label: 'Home' },
@@ -26,7 +26,7 @@ export default function Footer() {
                 { to: '/orders', label: 'My Orders' },
               ].map(({ to, label }) => (
                 <li key={to}>
-                  <Link to={to} className="hover:text-cyan transition-colors">{label}</Link>
+                  <Link to={to} className="hover:text-accent transition-colors">{label}</Link>
                 </li>
               ))}
             </ul>
@@ -34,7 +34,7 @@ export default function Footer() {
 
           {/* Account */}
           <div>
-            <h4 className="font-bold text-sm mb-3 text-cyan">Account</h4>
+            <h4 className="font-bold text-sm mb-3 text-accent">Account</h4>
             <ul className="space-y-2 text-sm text-white/70">
               {[
                 { to: '/login', label: 'Sign In' },
@@ -43,7 +43,7 @@ export default function Footer() {
                 { to: '/wishlist', label: 'Wishlist' },
               ].map(({ to, label }) => (
                 <li key={to}>
-                  <Link to={to} className="hover:text-cyan transition-colors">{label}</Link>
+                  <Link to={to} className="hover:text-accent transition-colors">{label}</Link>
                 </li>
               ))}
             </ul>

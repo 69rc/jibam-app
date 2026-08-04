@@ -135,7 +135,7 @@ export default function SearchPage() {
           }}
           className={`flex-shrink-0 px-3 py-1 rounded-full border-2 text-xs font-semibold transition
             ${!selectedCat
-              ? 'border-navy bg-navy-surface text-navy'
+              ? 'border-primary bg-primary-surface text-primary'
               : 'border-gray-200 text-gray-500 bg-white hover:border-gray-300'}`}
         >
           All
@@ -149,7 +149,7 @@ export default function SearchPage() {
             }}
             className={`flex-shrink-0 px-3 py-1 rounded-full border-2 text-xs font-semibold transition
               ${selectedCat === cat.id
-                ? 'border-navy bg-navy-surface text-navy'
+                ? 'border-primary bg-primary-surface text-primary'
                 : 'border-gray-200 text-gray-500 bg-white hover:border-gray-300'}`}
           >
             {cat.name}
@@ -181,10 +181,10 @@ export default function SearchPage() {
             key={label}
             onClick={toggle}
             className={`flex items-center gap-1 px-3 py-1 rounded-full border text-xs font-semibold transition
-              ${active ? 'border-navy bg-navy-surface text-navy' : 'border-gray-200 text-gray-500 bg-white'}`}
+              ${active ? 'border-primary bg-primary-surface text-primary' : 'border-gray-200 text-gray-500 bg-white'}`}
           >
             {active ? (
-              <IoCheckmarkCircle size={13} className="text-navy" />
+              <IoCheckmarkCircle size={13} className="text-primary" />
             ) : (
               <IoEllipseOutline size={13} className="text-gray-400" />
             )}
@@ -223,7 +223,7 @@ export default function SearchPage() {
               <button
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page === 1}
-                className="px-4 py-2 rounded-xl border border-gray-200 text-sm font-semibold text-navy disabled:opacity-40 hover:bg-navy-surface transition"
+                className="px-4 py-2 rounded-xl border border-gray-200 text-sm font-semibold text-primary disabled:opacity-40 hover:bg-primary-surface transition"
               >
                 Prev
               </button>
@@ -233,7 +233,7 @@ export default function SearchPage() {
               <button
                 onClick={() => setPage((p) => p + 1)}
                 disabled={!pagination.hasNext}
-                className="px-4 py-2 rounded-xl border border-gray-200 text-sm font-semibold text-navy disabled:opacity-40 hover:bg-navy-surface transition"
+                className="px-4 py-2 rounded-xl border border-gray-200 text-sm font-semibold text-primary disabled:opacity-40 hover:bg-primary-surface transition"
               >
                 Next
               </button>

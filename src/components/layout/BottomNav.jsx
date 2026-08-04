@@ -39,7 +39,7 @@ export default function BottomNav() {
             <div className="relative">
               <ActiveIcon size={24} />
               {badge && isAuthenticated && itemCount > 0 && (
-                <span className="absolute -top-1.5 -right-1.5 bg-cyan text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center leading-none">
+                <span className="absolute -top-1.5 -right-1.5 bg-primary text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center leading-none">
                   {itemCount > 9 ? '9+' : itemCount}
                 </span>
               )}

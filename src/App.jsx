@@ -80,22 +80,15 @@ export default function App() {
   // Show a minimal splash while reading localStorage
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-navy flex flex-col items-center justify-center gap-6">
+      <div className="min-h-screen bg-primary flex flex-col items-center justify-center gap-6">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-20 h-20 rounded-3xl bg-white flex items-center justify-center shadow-2xl">
-            <svg width="48" height="55" viewBox="0 0 100 115" fill="none">
-              <path d="M50 5 L92 22 L92 58 Q92 90 50 110 Q8 90 8 58 L8 22 Z"
-                stroke="#0D1B5E" strokeWidth="6" fill="none" />
-              <line x1="50" y1="28" x2="50" y2="88" stroke="#0D1B5E" strokeWidth="4" strokeLinecap="round" />
-              <line x1="32" y1="40" x2="68" y2="40" stroke="#0D1B5E" strokeWidth="3.5" strokeLinecap="round" />
-              <line x1="36" y1="54" x2="64" y2="54" stroke="#0D1B5E" strokeWidth="3" strokeLinecap="round" />
-              <circle cx="50" cy="26" r="5" fill="#0D1B5E" />
-            </svg>
+          <div className="w-24 h-24 rounded-3xl bg-white flex items-center justify-center shadow-2xl p-2">
+            <img src="/icons/logo.PNG" alt="Jibam Pharmacy" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
           </div>
           <p className="text-4xl font-black text-white tracking-widest">JIBAM</p>
-          <p className="text-lg font-bold text-[#00AEEF] tracking-[0.3em]">PHARMACY</p>
+          <p className="text-lg font-bold text-accent tracking-[0.3em]">PHARMACY</p>
         </div>
-        <div className="w-8 h-8 border-2 border-white/20 border-t-[#00AEEF] rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-white/20 border-t-accent rounded-full animate-spin" />
       </div>
     );
   }
@@ -171,8 +164,8 @@ export default function App() {
         <Route path="*" element={
           <Layout>
             <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4 text-center">
-              <p className="text-6xl font-black text-navy-surface">404</p>
-              <h2 className="text-xl font-bold text-navy">Page Not Found</h2>
+              <p className="text-6xl font-black text-primary-surface">404</p>
+              <h2 className="text-xl font-bold text-primary">Page Not Found</h2>
               <p className="text-gray-500 text-sm">The page you're looking for doesn't exist.</p>
               <a href="/" className="btn-primary px-8 mt-2">Go Home</a>
             </div>
