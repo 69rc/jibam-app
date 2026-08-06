@@ -7,7 +7,6 @@ import { cartAPI } from '../../services/api';
 import useCartStore from '../../store/cartStore';
 import { PageSpinner } from '../../components/common/Spinner';
 import EmptyState from '../../components/common/EmptyState';
-import { DELIVERY_FEE } from '../../constants';
 
 function CartItem({ item, onUpdateQty, onRemove, updating }) {
   const product = item.product;
@@ -88,7 +87,6 @@ export default function CartPage() {
 
   const items = cart?.items || [];
   const subtotal = cart?.subtotal || 0;
-  const total = subtotal + DELIVERY_FEE;
 
   if (isLoading) return <PageSpinner />;
 
@@ -143,11 +141,11 @@ export default function CartPage() {
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-500">Delivery Fee</span>
-                <span className="font-semibold text-primary">₦{DELIVERY_FEE.toLocaleString()}</span>
+                <span className="text-sm text-gray-400 italic">Calculated at checkout</span>
               </div>
               <div className="border-t border-gray-100 pt-3 flex justify-between items-baseline">
-                <span className="font-bold text-primary">Total</span>
-                <span className="text-xl font-extrabold text-primary">₦{Number(total).toLocaleString()}</span>
+                <span className="font-bold text-primary">Subtotal</span>
+                <span className="text-xl font-extrabold text-primary">₦{Number(subtotal).toLocaleString()}</span>
               </div>
             </div>
 

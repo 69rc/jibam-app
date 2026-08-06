@@ -1,22 +1,23 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   IoLocationOutline, IoCallOutline, IoChatbubbleOutline,
-  IoPricetagOutline, IoCard, IoCheckmarkCircle,
+  IoPricetagOutline, IoCard, IoCheckmarkCircle, IoWarningOutline,
 } from 'react-icons/io5';
 import toast from 'react-hot-toast';
 import { orderAPI, cartAPI, addressAPI } from '../../services/api';
 import { PageSpinner } from '../../components/common/Spinner';
-import { DELIVERY_FEE } from '../../constants';
+import { getDeliveryFee, KANO_ZONES } from '../../constants';
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [selectedAddressId, setSelectedAddressId] = useState(null);
+  const [selectedAddress, setSelectedAddress] = useState(null); // full address object
   const [promoCode, setPromoCode] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState('paystack'); // 'paystack' or 'opay'
+  const [paymentMethod, setPaymentMethod] = useState('paystack');
 
   const { control, handleSubmit, setValue, formState: { errors } } = useForm();
 
@@ -32,11 +33,18 @@ export default function CheckoutPage() {
       const def = data?.find((a) => a.isDefault) || data?.[0];
       if (def && !selectedAddressId) {
         setSelectedAddressId(def.id);
+        setSelectedAddress(def);
         setValue('deliveryAddress', `${def.street}, ${def.city}, ${def.state}`);
         setValue('deliveryPhone', def.phone);
       }
     },
   });
+
+  // ── Dynamic delivery fee ──────────────────────────────────────────────
+  const deliveryInfo = useMemo(() => {
+    if (!selectedAddress) return { fee: 500, zone: null, outsideKano: false };
+    return getDeliveryFee(selectedAddress.state, selectedAddress.city);
+  }, [selectedAddress]);
 
   const createOrderMutation = useMutation({
     mutationFn: (data) => orderAPI.create({ ...data, paymentMethod }),
@@ -51,6 +59,10 @@ export default function CheckoutPage() {
   });
 
   const onSubmit = (formData) => {
+    if (deliveryInfo.outsideKano) {
+      toast.error('Sorry, we currently only deliver within Kano state.');
+      return;
+    }
     createOrderMutation.mutate({
       deliveryAddress: formData.deliveryAddress,
       deliveryPhone: formData.deliveryPhone,
@@ -60,7 +72,7 @@ export default function CheckoutPage() {
   };
 
   const subtotal = cart?.subtotal || 0;
-  const total = subtotal + DELIVERY_FEE;
+  const total = subtotal + deliveryInfo.fee;
   const items = cart?.items || [];
 
   if (!cart) return <PageSpinner />;
@@ -70,7 +82,7 @@ export default function CheckoutPage() {
       <h1 className="text-2xl font-extrabold text-primary mb-6">Checkout</h1>
 
       <div className="flex flex-col gap-5">
-        {/* ── Form ────────────────────────────────── */}
+        {/* ── Form ─────────────────────────────────── */}
         <div className="flex flex-col gap-5">
 
           {/* Saved addresses */}
@@ -78,36 +90,62 @@ export default function CheckoutPage() {
             <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
               <h2 className="text-sm font-bold text-primary mb-3">Saved Addresses</h2>
               <div className="flex flex-col gap-2">
-                {addresses.map((addr) => (
-                  <button
-                    key={addr.id}
-                    type="button"
-                    onClick={() => {
-                      setSelectedAddressId(addr.id);
-                      setValue('deliveryAddress', `${addr.street}, ${addr.city}, ${addr.state}`);
-                      setValue('deliveryPhone', addr.phone);
-                    }}
-                    className={`flex items-start gap-3 p-3 rounded-xl border-2 transition text-left w-full
-                      ${selectedAddressId === addr.id
-                        ? 'border-primary bg-primary-surface'
-                        : 'border-gray-200 hover:border-gray-300'}`}
-                  >
-                    <div className={`mt-0.5 w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0
-                      ${selectedAddressId === addr.id ? 'border-primary' : 'border-gray-300'}`}>
-                      {selectedAddressId === addr.id && (
-                        <div className="w-2 h-2 rounded-full bg-primary" />
-                      )}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className="text-sm font-bold text-primary">{addr.label}</span>
-                        {addr.isDefault && <span className="badge-navy text-[10px]">Default</span>}
+                {addresses.map((addr) => {
+                  const info = getDeliveryFee(addr.state, addr.city);
+                  return (
+                    <button
+                      key={addr.id}
+                      type="button"
+                      onClick={() => {
+                        setSelectedAddressId(addr.id);
+                        setSelectedAddress(addr);
+                        setValue('deliveryAddress', `${addr.street}, ${addr.city}, ${addr.state}`);
+                        setValue('deliveryPhone', addr.phone);
+                      }}
+                      className={`flex items-start gap-3 p-3 rounded-xl border-2 transition text-left w-full
+                        ${selectedAddressId === addr.id
+                          ? 'border-primary bg-primary-surface'
+                          : 'border-gray-200 hover:border-gray-300'}`}
+                    >
+                      <div className={`mt-0.5 w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0
+                        ${selectedAddressId === addr.id ? 'border-primary' : 'border-gray-300'}`}>
+                        {selectedAddressId === addr.id && (
+                          <div className="w-2 h-2 rounded-full bg-primary" />
+                        )}
                       </div>
-                      <p className="text-xs text-gray-500 mt-0.5 truncate">{addr.street}, {addr.city}, {addr.state}</p>
-                      <p className="text-xs text-gray-400">📞 {addr.phone}</p>
-                    </div>
-                  </button>
-                ))}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="text-sm font-bold text-primary">{addr.label}</span>
+                          {addr.isDefault && <span className="badge-navy text-[10px]">Default</span>}
+                          {info.outsideKano ? (
+                            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-600">
+                              Outside delivery zone
+                            </span>
+                          ) : (
+                            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-primary-surface text-primary">
+                              ₦{info.fee.toLocaleString()} delivery · {info.zone}
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-xs text-gray-500 mt-0.5 truncate">{addr.street}, {addr.city}, {addr.state}</p>
+                        <p className="text-xs text-gray-400">📞 {addr.phone}</p>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Outside Kano warning */}
+          {deliveryInfo.outsideKano && (
+            <div className="bg-red-50 border border-red-200 rounded-2xl p-4 flex items-start gap-3">
+              <IoWarningOutline size={20} className="text-red-500 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="text-sm font-bold text-red-600">Outside Delivery Zone</p>
+                <p className="text-xs text-red-500 mt-0.5">
+                  We currently only deliver within Kano state. Please add a Kano address to continue.
+                </p>
               </div>
             </div>
           )}
@@ -165,7 +203,9 @@ export default function CheckoutPage() {
 
                 {/* Instructions */}
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-primary">Delivery Instructions <span className="text-gray-400 font-normal">(optional)</span></label>
+                  <label className="text-xs font-semibold text-primary">
+                    Delivery Instructions <span className="text-gray-400 font-normal">(optional)</span>
+                  </label>
                   <Controller
                     control={control}
                     name="deliveryInstructions"
@@ -206,7 +246,7 @@ export default function CheckoutPage() {
           </form>
         </div>
 
-        {/* ── Order summary ─────────────────── */}
+        {/* ── Order summary ──────────────────────── */}
         <div className="flex flex-col gap-4">
           <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
             <h2 className="text-sm font-bold text-primary mb-3">Order Summary</h2>
@@ -227,9 +267,18 @@ export default function CheckoutPage() {
                   <span className="text-gray-500">Subtotal</span>
                   <span className="font-semibold text-primary">₦{Number(subtotal).toLocaleString()}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-500">Delivery</span>
-                  <span className="font-semibold text-primary">₦{DELIVERY_FEE.toLocaleString()}</span>
+                <div className="flex justify-between items-center">
+                  <div className="flex flex-col">
+                    <span className="text-gray-500">Delivery</span>
+                    {deliveryInfo.zone && (
+                      <span className="text-[10px] text-gray-400">{deliveryInfo.zone}</span>
+                    )}
+                  </div>
+                  {deliveryInfo.outsideKano ? (
+                    <span className="text-xs font-bold text-red-500">Not available</span>
+                  ) : (
+                    <span className="font-semibold text-primary">₦{deliveryInfo.fee.toLocaleString()}</span>
+                  )}
                 </div>
                 <div className="flex justify-between items-baseline pt-1 border-t border-gray-100">
                   <span className="font-bold text-primary">Total</span>
@@ -239,46 +288,49 @@ export default function CheckoutPage() {
             </div>
           </div>
 
-          {/* Payment method selection */}
+          {/* Delivery zones info */}
+          <div className="bg-primary-surface rounded-2xl p-4 border border-primary/10">
+            <p className="text-xs font-bold text-primary mb-2">📍 Kano Delivery Zones</p>
+            <div className="flex flex-col gap-1">
+              {Object.values(KANO_ZONES).map((zone) => (
+                <div key={zone.label} className="flex justify-between text-xs">
+                  <span className="text-gray-600">{zone.label}</span>
+                  <span className="font-semibold text-primary">₦{zone.fee.toLocaleString()}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Payment method */}
           <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
             <h2 className="text-sm font-bold text-primary mb-3">Payment Method</h2>
             <div className="flex flex-col gap-2">
-              {/* Paystack option */}
               <button
                 type="button"
                 onClick={() => setPaymentMethod('paystack')}
                 className={`flex items-center gap-3 p-4 rounded-xl border-2 transition text-left w-full
-                  ${paymentMethod === 'paystack'
-                    ? 'border-primary bg-primary-surface'
-                    : 'border-gray-200 hover:border-gray-300'}`}
+                  ${paymentMethod === 'paystack' ? 'border-primary bg-primary-surface' : 'border-gray-200 hover:border-gray-300'}`}
               >
                 <IoCard size={22} className={`${paymentMethod === 'paystack' ? 'text-primary' : 'text-gray-400'} flex-shrink-0`} />
                 <div className="flex-1">
                   <p className={`text-sm font-bold ${paymentMethod === 'paystack' ? 'text-primary' : 'text-gray-600'}`}>Paystack</p>
                   <p className="text-xs text-gray-400">Card, Bank Transfer, USSD</p>
                 </div>
-                {paymentMethod === 'paystack' && (
-                  <IoCheckmarkCircle size={18} className="text-primary" />
-                )}
+                {paymentMethod === 'paystack' && <IoCheckmarkCircle size={18} className="text-primary" />}
               </button>
 
-              {/* OPay option */}
               <button
                 type="button"
                 onClick={() => setPaymentMethod('opay')}
                 className={`flex items-center gap-3 p-4 rounded-xl border-2 transition text-left w-full
-                  ${paymentMethod === 'opay'
-                    ? 'border-primary bg-primary-surface'
-                    : 'border-gray-200 hover:border-gray-300'}`}
+                  ${paymentMethod === 'opay' ? 'border-primary bg-primary-surface' : 'border-gray-200 hover:border-gray-300'}`}
               >
                 <IoCard size={22} className={`${paymentMethod === 'opay' ? 'text-primary' : 'text-gray-400'} flex-shrink-0`} />
                 <div className="flex-1">
                   <p className={`text-sm font-bold ${paymentMethod === 'opay' ? 'text-primary' : 'text-gray-600'}`}>OPay</p>
                   <p className="text-xs text-gray-400">OPay Wallet, Bank Transfer</p>
                 </div>
-                {paymentMethod === 'opay' && (
-                  <IoCheckmarkCircle size={18} className="text-primary" />
-                )}
+                {paymentMethod === 'opay' && <IoCheckmarkCircle size={18} className="text-primary" />}
               </button>
             </div>
           </div>
@@ -286,12 +338,16 @@ export default function CheckoutPage() {
           <button
             form="checkout-form"
             type="submit"
-            disabled={createOrderMutation.isPending}
-            className="btn-primary w-full flex items-center justify-center gap-2"
+            disabled={createOrderMutation.isPending || deliveryInfo.outsideKano}
+            className="btn-primary w-full flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {createOrderMutation.isPending ? (
               <span className="inline-block w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-            ) : `Place Order · ₦${Number(total).toLocaleString()}`}
+            ) : deliveryInfo.outsideKano ? (
+              'Delivery not available in your area'
+            ) : (
+              `Place Order · ₦${Number(total).toLocaleString()}`
+            )}
           </button>
         </div>
       </div>
