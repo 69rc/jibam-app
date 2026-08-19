@@ -97,9 +97,6 @@ export const paymentAPI = {
   initialize: (d) => api.post('/payments/initialize', d),
   verify: (d) => api.post('/payments/verify', d),
   getHistory: () => api.get('/payments/history'),
-  // OPay specific endpoints
-  initializeOPay: (d) => api.post('/payments/opay/initialize', d),
-  verifyOPay: (reference) => api.get(`/payments/opay/verify/${reference}`),
 };
 
 // ─── Wishlist ──────────────────────────────────────────────────────────────

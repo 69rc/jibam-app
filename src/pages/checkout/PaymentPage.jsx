@@ -10,7 +10,7 @@ export default function PaymentPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { orderId, orderTotal, paymentMethod = 'paystack' } = location.state || {};
+  const { orderId, orderTotal } = location.state || {};
 
   const [paymentUrl, setPaymentUrl] = useState(null);
   const [reference, setReference] = useState(null);
@@ -18,15 +18,10 @@ export default function PaymentPage() {
   const [step, setStep] = useState('init'); // init | pending | success | failed
 
   const initMutation = useMutation({
-    mutationFn: () => {
-      if (paymentMethod === 'opay') {
-        return paymentAPI.initializeOPay({ orderId });
-      }
-      return paymentAPI.initialize({ orderId });
-    },
+    mutationFn: () => paymentAPI.initialize({ orderId }),
     onSuccess: (res) => {
-      const { authorizationUrl, paymentUrl: opayUrl, reference: ref } = res.data.data;
-      setPaymentUrl(opayUrl || authorizationUrl);
+      const { authorizationUrl, reference: ref } = res.data.data;
+      setPaymentUrl(authorizationUrl);
       setReference(ref);
       setStep('pending');
     },
@@ -49,9 +44,7 @@ export default function PaymentPage() {
     if (!reference) return;
     setVerifying(true);
     try {
-      const res = paymentMethod === 'opay'
-        ? await paymentAPI.verifyOPay(reference)
-        : await paymentAPI.verify({ reference });
+      const res = await paymentAPI.verify({ reference });
       const { payment } = res.data.data;
       if (payment.status === 'success') {
         queryClient.invalidateQueries(['orders']);
@@ -123,8 +116,8 @@ export default function PaymentPage() {
         <h3 className="text-sm font-bold text-primary mb-4">How to complete payment</h3>
         <div className="flex flex-col gap-3">
           {[
-            { icon: IoOpenOutline, text: `Click "Pay with ${paymentMethod === 'opay' ? 'OPay' : 'Paystack'}" below` },
-            { icon: IoCardOutline, text: `Complete payment on the ${paymentMethod === 'opay' ? 'OPay' : 'Paystack'} page` },
+            { icon: IoOpenOutline,      text: 'Click "Pay with Paystack" below' },
+            { icon: IoCardOutline,      text: 'Complete payment on the Paystack page' },
             { icon: IoCheckmarkCircle, text: 'Return here and click "I\'ve Paid"' },
           ].map((s, i) => (
             <div key={i} className="flex items-center gap-3">
@@ -143,7 +136,7 @@ export default function PaymentPage() {
         className="btn-primary w-full flex items-center justify-center gap-2"
       >
         <IoOpenOutline size={18} />
-        Pay with {paymentMethod === 'opay' ? 'OPay' : 'Paystack'}
+        Pay with Paystack
       </button>
 
       <button

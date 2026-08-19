@@ -5,11 +5,11 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   IoLocationOutline, IoCallOutline, IoChatbubbleOutline,
   IoPricetagOutline, IoCard, IoCheckmarkCircle, IoWarningOutline,
-} from 'react-icons/io5';
-import toast from 'react-hot-toast';
+} from 'react-icons/io5';import toast from 'react-hot-toast';
 import { orderAPI, cartAPI, addressAPI } from '../../services/api';
+import api from '../../services/api';
 import { PageSpinner } from '../../components/common/Spinner';
-import { getDeliveryFee, KANO_ZONES } from '../../constants';
+import { getDeliveryFee, DEFAULT_DELIVERY_ZONES } from '../../constants';
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
@@ -17,13 +17,19 @@ export default function CheckoutPage() {
   const [selectedAddressId, setSelectedAddressId] = useState(null);
   const [selectedAddress, setSelectedAddress] = useState(null); // full address object
   const [promoCode, setPromoCode] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState('paystack');
 
   const { control, handleSubmit, setValue, formState: { errors } } = useForm();
 
   const { data: cart } = useQuery({
     queryKey: ['cart'],
     queryFn: () => cartAPI.getCart().then((r) => r.data.data),
+  });
+
+  // Fetch zones from backend (admin-configurable)
+  const { data: deliveryZones = DEFAULT_DELIVERY_ZONES } = useQuery({
+    queryKey: ['delivery-zones'],
+    queryFn: () => api.get('/settings/delivery-zones').then((r) => r.data.data),
+    staleTime: 5 * 60 * 1000, // cache 5 min
   });
 
   const { data: addresses } = useQuery({
@@ -43,16 +49,16 @@ export default function CheckoutPage() {
   // ── Dynamic delivery fee ──────────────────────────────────────────────
   const deliveryInfo = useMemo(() => {
     if (!selectedAddress) return { fee: 500, zone: null, outsideKano: false };
-    return getDeliveryFee(selectedAddress.state, selectedAddress.city);
-  }, [selectedAddress]);
+    return getDeliveryFee(deliveryZones, selectedAddress.state, selectedAddress.city);
+  }, [selectedAddress, deliveryZones]);
 
   const createOrderMutation = useMutation({
-    mutationFn: (data) => orderAPI.create({ ...data, paymentMethod }),
+    mutationFn: (data) => orderAPI.create({ ...data, paymentMethod: 'paystack' }),
     onSuccess: (res) => {
       queryClient.invalidateQueries(['cart']);
       queryClient.invalidateQueries(['orders']);
       navigate('/payment', {
-        state: { orderId: res.data.data.id, orderTotal: res.data.data.total, paymentMethod },
+        state: { orderId: res.data.data.id, orderTotal: res.data.data.total },
       });
     },
     onError: (err) => toast.error(err.response?.data?.message || 'Order creation failed'),
@@ -91,7 +97,7 @@ export default function CheckoutPage() {
               <h2 className="text-sm font-bold text-primary mb-3">Saved Addresses</h2>
               <div className="flex flex-col gap-2">
                 {addresses.map((addr) => {
-                  const info = getDeliveryFee(addr.state, addr.city);
+                  const info = getDeliveryFee(deliveryZones, addr.state, addr.city);
                   return (
                     <button
                       key={addr.id}
@@ -292,10 +298,10 @@ export default function CheckoutPage() {
           <div className="bg-primary-surface rounded-2xl p-4 border border-primary/10">
             <p className="text-xs font-bold text-primary mb-2">📍 Kano Delivery Zones</p>
             <div className="flex flex-col gap-1">
-              {Object.values(KANO_ZONES).map((zone) => (
-                <div key={zone.label} className="flex justify-between text-xs">
+              {deliveryZones.map((zone) => (
+                <div key={zone.id || zone.label} className="flex justify-between text-xs">
                   <span className="text-gray-600">{zone.label}</span>
-                  <span className="font-semibold text-primary">₦{zone.fee.toLocaleString()}</span>
+                  <span className="font-semibold text-primary">₦{Number(zone.fee).toLocaleString()}</span>
                 </div>
               ))}
             </div>
@@ -304,34 +310,13 @@ export default function CheckoutPage() {
           {/* Payment method */}
           <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
             <h2 className="text-sm font-bold text-primary mb-3">Payment Method</h2>
-            <div className="flex flex-col gap-2">
-              <button
-                type="button"
-                onClick={() => setPaymentMethod('paystack')}
-                className={`flex items-center gap-3 p-4 rounded-xl border-2 transition text-left w-full
-                  ${paymentMethod === 'paystack' ? 'border-primary bg-primary-surface' : 'border-gray-200 hover:border-gray-300'}`}
-              >
-                <IoCard size={22} className={`${paymentMethod === 'paystack' ? 'text-primary' : 'text-gray-400'} flex-shrink-0`} />
-                <div className="flex-1">
-                  <p className={`text-sm font-bold ${paymentMethod === 'paystack' ? 'text-primary' : 'text-gray-600'}`}>Paystack</p>
-                  <p className="text-xs text-gray-400">Card, Bank Transfer, USSD</p>
-                </div>
-                {paymentMethod === 'paystack' && <IoCheckmarkCircle size={18} className="text-primary" />}
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setPaymentMethod('opay')}
-                className={`flex items-center gap-3 p-4 rounded-xl border-2 transition text-left w-full
-                  ${paymentMethod === 'opay' ? 'border-primary bg-primary-surface' : 'border-gray-200 hover:border-gray-300'}`}
-              >
-                <IoCard size={22} className={`${paymentMethod === 'opay' ? 'text-primary' : 'text-gray-400'} flex-shrink-0`} />
-                <div className="flex-1">
-                  <p className={`text-sm font-bold ${paymentMethod === 'opay' ? 'text-primary' : 'text-gray-600'}`}>OPay</p>
-                  <p className="text-xs text-gray-400">OPay Wallet, Bank Transfer</p>
-                </div>
-                {paymentMethod === 'opay' && <IoCheckmarkCircle size={18} className="text-primary" />}
-              </button>
+            <div className="flex items-center gap-3 p-4 rounded-xl border-2 border-primary bg-primary-surface">
+              <IoCard size={22} className="text-primary flex-shrink-0" />
+              <div className="flex-1">
+                <p className="text-sm font-bold text-primary">Paystack</p>
+                <p className="text-xs text-gray-400">Card, Bank Transfer, USSD</p>
+              </div>
+              <IoCheckmarkCircle size={18} className="text-primary" />
             </div>
           </div>
 
