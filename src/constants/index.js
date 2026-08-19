@@ -11,6 +11,8 @@ export const DEFAULT_DELIVERY_ZONES = [
 
 /**
  * Calculate delivery fee given zones array from API + customer address.
+ * `city` field now stores the zone label (e.g. "Central Kano") selected at address creation.
+ * Falls back to area-string matching for legacy addresses.
  * Returns { fee, zone, outsideKano }
  */
 export function getDeliveryFee(zones = DEFAULT_DELIVERY_ZONES, state = '', city = '') {
@@ -19,6 +21,11 @@ export function getDeliveryFee(zones = DEFAULT_DELIVERY_ZONES, state = '', city 
 
   if (!s.includes('kano')) return { fee: 0, zone: null, outsideKano: true };
 
+  // Primary: match by zone label (exact — what the new address form saves)
+  const byLabel = zones.find((z) => z.label.toLowerCase() === c);
+  if (byLabel) return { fee: byLabel.fee, zone: byLabel.label, outsideKano: false };
+
+  // Fallback: match by area strings (legacy free-text city entries)
   for (const zone of zones) {
     if ((zone.areas || []).some((area) => c.includes(area) || area.includes(c))) {
       return { fee: zone.fee, zone: zone.label, outsideKano: false };
