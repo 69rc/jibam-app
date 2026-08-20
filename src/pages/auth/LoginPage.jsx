@@ -17,11 +17,13 @@ export default function LoginPage() {
   const { setAuth } = useAuthStore();
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [serverError, setServerError] = useState('');
 
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const onSubmit = async (data) => {
     setLoading(true);
+    setServerError('');
     try {
       const res = await authAPI.login(data);
       const { user, accessToken, refreshToken } = res.data.data;
@@ -29,7 +31,23 @@ export default function LoginPage() {
       toast.success(`Welcome back, ${user.fullname.split(' ')[0]}!`);
       navigate(from, { replace: true });
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Login failed. Check your credentials.');
+      const status = err.response?.status;
+      const msg = err.response?.data?.message;
+      if (status === 401) {
+        if (msg?.toLowerCase().includes('password')) {
+          setServerError('Incorrect password. Please try again.');
+        } else if (msg?.toLowerCase().includes('email') || msg?.toLowerCase().includes('account')) {
+          setServerError('No account found with this email address.');
+        } else {
+          setServerError('Invalid email or password.');
+        }
+      } else if (status === 403) {
+        setServerError('Your account has been deactivated. Contact support.');
+      } else if (!err.response) {
+        setServerError('Network error. Check your connection and try again.');
+      } else {
+        setServerError(msg || 'Login failed. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
@@ -70,6 +88,13 @@ export default function LoginPage() {
           <p className="text-sm text-gray-400 mb-6">Enter your credentials to continue</p>
 
           <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+            {/* Server error banner */}
+            {serverError && (
+              <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3 flex items-center gap-2">
+                <span className="text-red-500 text-lg">⚠️</span>
+                <p className="text-sm text-red-600 font-medium">{serverError}</p>
+              </div>
+            )}
             {/* Email */}
             <div className="flex flex-col gap-1.5">
               <label htmlFor="login-email" className="text-sm font-semibold text-primary">

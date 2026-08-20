@@ -8,6 +8,7 @@ import { isMobileDevice } from './utils/mobileDetection';
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
 import ForgotPasswordPage from './pages/auth/ForgotPasswordPage';
+import ResetPasswordPage from './pages/auth/ResetPasswordPage';
 
 // Public pages
 import HomePage from './pages/main/HomePage';
@@ -21,6 +22,7 @@ import WishlistPage from './pages/main/WishlistPage';
 import CartPage from './pages/cart/CartPage';
 import CheckoutPage from './pages/checkout/CheckoutPage';
 import PaymentPage from './pages/checkout/PaymentPage';
+import PaymentCallbackPage from './pages/checkout/PaymentCallbackPage';
 import OrderSuccessPage from './pages/checkout/OrderSuccessPage';
 import OrdersPage from './pages/order/OrdersPage';
 import OrderDetailPage from './pages/order/OrderDetailPage';
@@ -55,26 +57,31 @@ function ScrollToTop() {
 
 export default function App() {
   const { isLoading, initAuth } = useAuthStore();
-  const [isMobile, setIsMobile] = useState(false);
   const [showMobilePage, setShowMobilePage] = useState(false);
 
   useEffect(() => {
     initAuth();
-    // Check if user is on mobile device
-    const mobileCheck = isMobileDevice();
-    setIsMobile(mobileCheck);
-    
-    // Check if user has chosen to use web version
+
+    // If already running as installed PWA (standalone) — never show download page
+    const isStandalone =
+      window.matchMedia('(display-mode: standalone)').matches ||
+      window.navigator.standalone === true;
+
+    if (isStandalone) {
+      setShowMobilePage(false);
+      return;
+    }
+
+    // If user explicitly chose to use the web version — skip download page
     const useWebVersion = localStorage.getItem('useWebVersion');
-    
-    // TEMPORARILY DISABLED FOR PWA TESTING
-    // Show mobile download page if on mobile device and hasn't chosen web version
-    // if (mobileCheck && !useWebVersion) {
-    //   setShowMobilePage(true);
-    // }
-    
-    // For PWA testing, always show the web app
-    setShowMobilePage(false);
+    if (useWebVersion) {
+      setShowMobilePage(false);
+      return;
+    }
+
+    // Show download page only for non-desktop mobile browsers
+    const mobile = isMobileDevice();
+    setShowMobilePage(mobile);
   }, [initAuth]);
 
   // Show a minimal splash while reading localStorage
@@ -110,6 +117,8 @@ export default function App() {
           <RedirectIfAuth><RegisterPage /></RedirectIfAuth>
         } />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
 
         {/* ── Public pages with layout ────────────────────────────── */}
         <Route path="/" element={
@@ -137,6 +146,9 @@ export default function App() {
         } />
         <Route path="/payment" element={
           <RequireAuth><Layout><PaymentPage /></Layout></RequireAuth>
+        } />
+        <Route path="/payment/callback" element={
+          <RequireAuth><PaymentCallbackPage /></RequireAuth>
         } />
         <Route path="/order-success" element={
           <RequireAuth><Layout><OrderSuccessPage /></Layout></RequireAuth>

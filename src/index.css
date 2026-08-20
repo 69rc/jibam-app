@@ -413,6 +413,10 @@
   animation: bounceIn 0.5s ease-out;
 }
 
+.animate-slideUp {
+  animation: slideUp 0.3s ease-out;
+}
+
 /* ─── Global Scrollbar (desktop only, minimal) ───────────────────── */
 @media (min-width: 481px) {
   ::-webkit-scrollbar { width: 4px; height: 4px; }

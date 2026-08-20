@@ -73,6 +73,7 @@ export default function CheckoutPage() {
       deliveryAddress: formData.deliveryAddress,
       deliveryPhone: formData.deliveryPhone,
       deliveryInstructions: formData.deliveryInstructions,
+      deliveryCity: selectedAddress?.city || '',   // zone label for backend fee lookup
       promoCode: promoCode || undefined,
     });
   };

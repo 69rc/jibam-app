@@ -21,7 +21,14 @@ api.interceptors.response.use(
   (res) => res,
   async (error) => {
     const original = error.config;
-    if (error.response?.status === 401 && !original._retry) {
+
+    // Don't intercept auth endpoint errors — let them reach the catch block
+    const isAuthEndpoint = original?.url?.includes('/auth/login') ||
+      original?.url?.includes('/auth/register') ||
+      original?.url?.includes('/auth/forgot-password') ||
+      original?.url?.includes('/auth/reset-password');
+
+    if (error.response?.status === 401 && !original._retry && !isAuthEndpoint) {
       original._retry = true;
       if (typeof window === 'undefined') {
         return Promise.reject(error);
@@ -60,6 +67,7 @@ export const authAPI = {
   updateProfile: (d) => api.put('/auth/profile', d),
   changePassword: (d) => api.put('/auth/change-password', d),
   forgotPassword: (d) => api.post('/auth/forgot-password', d),
+  resetPassword: (d) => api.post('/auth/reset-password', d),
 };
 
 // ─── Products ──────────────────────────────────────────────────────────────

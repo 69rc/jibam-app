@@ -16,8 +16,12 @@ export default function ForgotPasswordPage() {
     try {
       await authAPI.forgotPassword({ email });
       setSent(true);
-    } catch {
-      toast.error('Something went wrong. Please try again.');
+    } catch (err) {
+      if (!err.response) {
+        toast.error('Network error. Check your connection and try again.');
+      } else {
+        toast.error(err.response?.data?.message || 'Something went wrong. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
