@@ -118,7 +118,6 @@ export default function App() {
         } />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
-        <Route path="/reset-password" element={<ResetPasswordPage />} />
 
         {/* ── Public pages with layout ────────────────────────────── */}
         <Route path="/" element={
