@@ -6,17 +6,27 @@ import {
 } from 'react-icons/io5';
 import toast from 'react-hot-toast';
 import { productAPI, cartAPI } from '../../services/api';
+import api from '../../services/api';
 import ProductCard from '../../components/product/ProductCard';
 import CategoryChip from '../../components/product/CategoryChip';
 import { PageSpinner } from '../../components/common/Spinner';
 import useAuthStore from '../../store/authStore';
 import useCartStore from '../../store/cartStore';
 
-const PROMO_BANNERS = [
-  { id: '1', title: 'Up to 20% Off', subtitle: 'On selected antibiotics', bg: 'bg-primary', textColor: 'text-white' },
-  { id: '2', title: 'Free Delivery', subtitle: 'On orders above ₦5,000', bg: 'bg-accent', textColor: 'text-white' },
-  { id: '3', title: 'New Arrivals', subtitle: 'Fresh stock every week', bg: 'bg-primary-light', textColor: 'text-white' },
+// Fallback banners if API is unavailable
+const DEFAULT_BANNERS = [
+  { id: '1', title: 'Up to 20% Off', subtitle: 'On selected antibiotics', color: 'primary', active: true, buttonLabel: 'Shop Now' },
+  { id: '2', title: 'Free Delivery', subtitle: 'On orders above ₦5,000', color: 'accent', active: true, buttonLabel: 'Order Now' },
+  { id: '3', title: 'New Arrivals', subtitle: 'Fresh stock every week', color: 'primary-light', active: true, buttonLabel: 'View All' },
 ];
+
+// Map color name → Tailwind bg class
+const COLOR_MAP = {
+  'primary':       'bg-primary',
+  'primary-light': 'bg-primary-light',
+  'accent':        'bg-accent',
+  'danger':        'bg-red-600',
+};
 
 function SectionHeader({ title, to }) {
   return (
@@ -44,6 +54,16 @@ export default function HomePage() {
     queryKey: ['home'],
     queryFn: () => productAPI.getHome().then((r) => r.data.data),
   });
+
+  // Fetch promo banners from admin-configurable API
+  const { data: promoBanners = DEFAULT_BANNERS } = useQuery({
+    queryKey: ['promo-banners'],
+    queryFn: () => api.get('/settings/promo-banners').then((r) => r.data.data),
+    staleTime: 5 * 60 * 1000,
+  });
+
+  // Only show active banners
+  const activeBanners = promoBanners.filter((b) => b.active !== false);
 
   const addToCartMutation = useMutation({
     mutationFn: ({ productId }) => cartAPI.addItem({ productId, quantity: 1 }),
@@ -102,23 +122,33 @@ export default function HomePage() {
 
       {/* ── Promo banners (horizontal scroll) ───────────── */}
       <div className="flex gap-3 overflow-x-auto scrollbar-hide snap-x snap-mandatory -mx-4 px-4 pb-1">
-        {PROMO_BANNERS.map((b) => (
-          <div
-            key={b.id}
-            className={`flex-shrink-0 w-[78vw] max-w-xs snap-start rounded-2xl p-4 ${b.bg} flex items-center justify-between overflow-hidden relative`}
-          >
-            <div className="z-10">
-              <h3 className={`text-base font-extrabold ${b.textColor}`}>{b.title}</h3>
-              <p className={`text-xs mt-0.5 ${b.textColor} opacity-80`}>{b.subtitle}</p>
-              <button className="mt-2.5 bg-white/25 text-white text-xs font-semibold px-3 py-1 rounded-lg hover:bg-white/35 transition">
-                Shop Now
-              </button>
+        {activeBanners.map((b) => {
+          const bgClass = COLOR_MAP[b.color] || 'bg-primary';
+          const bgStyle = b.color === 'custom' && b.customColor
+            ? { backgroundColor: b.customColor }
+            : {};
+          return (
+            <div
+              key={b.id}
+              className={`flex-shrink-0 w-[78vw] max-w-xs snap-start rounded-2xl p-4 ${bgClass} flex items-center justify-between overflow-hidden relative`}
+              style={bgStyle}
+            >
+              <div className="z-10">
+                <h3 className="text-base font-extrabold text-white">{b.title}</h3>
+                <p className="text-xs mt-0.5 text-white opacity-80">{b.subtitle}</p>
+                <button
+                  onClick={() => b.link && navigate(b.link)}
+                  className="mt-2.5 bg-white/25 text-white text-xs font-semibold px-3 py-1 rounded-lg hover:bg-white/35 transition"
+                >
+                  {b.buttonLabel || 'Shop Now'}
+                </button>
+              </div>
+              <div className="absolute right-3 bottom-[-6px] opacity-20">
+                <IoMedkitOutline size={64} className="text-white" />
+              </div>
             </div>
-            <div className="absolute right-3 bottom-[-6px] opacity-20">
-              <IoMedkitOutline size={64} className="text-white" />
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* ── Categories ───────────────────────────────────── */}
