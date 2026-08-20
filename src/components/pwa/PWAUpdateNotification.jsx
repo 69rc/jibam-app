@@ -1,101 +1,83 @@
-import { useState, useEffect } from 'react';
-import { IoRefreshOutline, IoCloseOutline } from 'react-icons/io5';
+/**
+ * PWAUpdateNotification
+ *
+ * Uses vite-plugin-pwa's useRegisterSW hook to detect when a new service
+ * worker is waiting. When an update is found:
+ *   - A toast-style banner appears at the top of the screen
+ *   - User can tap "Update now" to reload immediately
+ *   - If ignored, the app auto-reloads after 10 seconds anyway
+ *     (so users always get the latest version)
+ */
+import { useEffect, useRef } from 'react';
+import { useRegisterSW } from 'virtual:pwa-register/react';
+import { IoRefreshOutline } from 'react-icons/io5';
+import toast from 'react-hot-toast';
 
 export default function PWAUpdateNotification() {
-  const [showUpdate, setShowUpdate] = useState(false);
-  const [isUpdating, setIsUpdating] = useState(false);
+  const toastShown = useRef(false);
+
+  const {
+    needRefresh: [needRefresh, setNeedRefresh],
+    updateServiceWorker,
+  } = useRegisterSW({
+    onRegistered(r) {
+      // Poll for updates every 60 seconds while the app is open
+      if (r) {
+        setInterval(() => r.update(), 60 * 1000);
+      }
+    },
+    onRegisterError(error) {
+      console.error('[SW] Registration error:', error);
+    },
+  });
 
   useEffect(() => {
-    // Listen for service worker updates
-    const handleSWUpdate = (event) => {
-      const newSW = event.detail;
-      if (newSW && newSW.waiting) {
-        setShowUpdate(true);
-      }
-    };
+    if (!needRefresh || toastShown.current) return;
+    toastShown.current = true;
 
-    // Custom event for service worker updates
-    window.addEventListener('sw-update-available', handleSWUpdate);
-
-    return () => {
-      window.removeEventListener('sw-update-available', handleSWUpdate);
-    };
-  }, []);
-
-  const handleUpdate = async () => {
-    setIsUpdating(true);
-    
-    try {
-      // Tell the waiting service worker to activate
-      if ('serviceWorker' in navigator) {
-        const registration = await navigator.serviceWorker.getRegistration();
-        if (registration && registration.waiting) {
-          // Send message to waiting service worker to skip waiting
-          registration.waiting.postMessage({ type: 'SKIP_WAITING' });
-          
-          // Listen for the controlling service worker change
-          navigator.serviceWorker.addEventListener('controllerchange', () => {
-            window.location.reload();
-          });
-        }
-      }
-    } catch (error) {
-      console.error('Error updating service worker:', error);
-      setIsUpdating(false);
-    }
-  };
-
-  const handleDismiss = () => {
-    setShowUpdate(false);
-  };
-
-  if (!showUpdate) {
-    return null;
-  }
-
-  return (
-    <div className="fixed top-4 left-4 right-4 z-50 sm:left-auto sm:right-8 sm:w-96">
-      <div className="bg-white rounded-2xl shadow-2xl p-4 border border-gray-100">
-        <div className="flex items-start gap-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-[#8BC34A] to-[#0090CC] rounded-xl flex items-center justify-center flex-shrink-0">
-            <IoRefreshOutline size={20} className="text-white" />
+    // Show a persistent toast with an update button
+    toast(
+      (t) => (
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 bg-primary rounded-xl flex items-center justify-center flex-shrink-0">
+            <IoRefreshOutline size={16} className="text-white" />
           </div>
-          
-          <div className="flex-1">
-            <h3 className="font-bold text-primary text-sm mb-1">Update Available</h3>
-            <p className="text-xs text-gray-500 mb-3">
-              A new version of Jibam Pharmacy is available with improvements and bug fixes.
-            </p>
-            
-            <div className="flex gap-2">
-              <button
-                onClick={handleUpdate}
-                disabled={isUpdating}
-                className="flex-1 bg-[#8BC34A] hover:bg-[#0090CC] text-white text-xs font-bold py-2 px-4 rounded-xl transition-colors flex items-center justify-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isUpdating ? (
-                  <>
-                    <div className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    Updating...
-                  </>
-                ) : (
-                  <>
-                    <IoRefreshOutline size={14} />
-                    Update
-                  </>
-                )}
-              </button>
-              <button
-                onClick={handleDismiss}
-                disabled={isUpdating}
-                className="text-gray-400 hover:text-gray-600 p-2 transition-colors disabled:opacity-50"
-              >
-                <IoCloseOutline size={16} />
-              </button>
-            </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-bold text-gray-800 leading-tight">New version available</p>
+            <p className="text-xs text-gray-500">Tap to update Jibam Pharmacy</p>
           </div>
+          <button
+            onClick={() => {
+              toast.dismiss(t.id);
+              updateServiceWorker(true);
+            }}
+            className="flex-shrink-0 bg-primary text-white text-xs font-bold px-3 py-1.5 rounded-lg"
+          >
+            Update
+          </button>
         </div>
-      </div>
-    </div>
-  );
+      ),
+      {
+        id: 'pwa-update',
+        duration: Infinity, // stays until dismissed or clicked
+        position: 'top-center',
+        style: {
+          maxWidth: '420px',
+          padding: '10px 12px',
+          borderRadius: '16px',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.12)',
+        },
+      }
+    );
+
+    // Auto-reload after 10 seconds if user doesn't interact
+    const autoReload = setTimeout(() => {
+      toast.dismiss('pwa-update');
+      updateServiceWorker(true);
+    }, 10_000);
+
+    return () => clearTimeout(autoReload);
+  }, [needRefresh, updateServiceWorker]);
+
+  return null; // Rendering handled by react-hot-toast
 }

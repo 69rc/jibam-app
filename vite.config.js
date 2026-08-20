@@ -6,13 +6,13 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      registerType: 'autoUpdate',
+      registerType: 'prompt',
       includeAssets: ['favicon.png', 'icons/*.png', 'icons/*.svg', 'splash/*.png', 'offline.html', 'browserconfig.xml'],
       manifest: {
         name: 'Jibam Pharmacy',
         short_name: 'Jibam',
         description: 'Your trusted online pharmacy for medicines and healthcare products.',
-        theme_color: '#0D9488',
+        theme_color: '#1B5E20',
         background_color: '#FFFFFF',
         display: 'standalone',
         orientation: 'portrait',
